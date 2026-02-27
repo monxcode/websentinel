@@ -231,22 +231,25 @@ PDF_REPORT_NAME = "websentinel_report.pdf"
 
 LEGAL_DISCLAIMER = """
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                          LEGAL DISCLAIMER & WARNING                         ║
+║                          LEGAL DISCLAIMER & WARNING                          ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
-║  WebSentinel Framework is designed for AUTHORIZED security testing only.   ║
+║  WebSentinel Framework is designed for AUTHORIZED security testing only.     ║
 ║                                                                              ║
-║  By proceeding, you confirm that:                                           ║
-║  1. You have EXPLICIT written authorization to test the target system.      ║
-║  2. You are the system owner or have permission from the system owner.      ║
-║  3. You understand that unauthorized scanning may be ILLEGAL.               ║
-║  4. You accept full responsibility for your use of this tool.              ║
-║  5. The tool authors bear NO liability for misuse.                         ║
+║  By proceeding, you confirm that:                                            ║
+║  1. You have EXPLICIT written authorization to test the target system.       ║
+║  2. You are the system owner or have permission from the system owner.       ║
+║  3. You understand that unauthorized scanning may be ILLEGAL.                ║
+║  4. You accept full responsibility for your use of this tool.                ║
+║  5. The tool authors bear NO liability for misuse.                           ║
 ║                                                                              ║
-║  Unauthorized scanning violates computer crime laws including:              ║
-║  - Computer Fraud and Abuse Act (CFAA) - United States                     ║
-║  - Computer Misuse Act - United Kingdom                                     ║
-║  - Similar laws in your jurisdiction                                        ║
+║  Unauthorized scanning violates computer crime laws including:               ║
+║  - Computer Fraud and Abuse Act (CFAA) - United States                       ║
+║  - Computer Misuse Act - United Kingdom                                      ║
+║  - Similar laws in your jurisdiction                                         ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                               [ MIT LICENSE ]                                ║
 ║                                                                              ║
+║          © Author: MOHAN SINGH PARMAR | https://github.com/monxcode          ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 """

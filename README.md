@@ -13,22 +13,23 @@ WebSentinel is designed for **authorized security testing only**. You must have 
 
 ## Features
 
-- 🔍 **Advanced Crawler Engine** — BFS crawl with sitemap.xml, robots.txt parsing, form detection, and endpoint classification (static / dynamic / api / auth / admin)
-- 🧠 **Technology Fingerprinting** — Passive detection of server, CMS, frameworks, languages, and WAF
-- 🛡 **40+ Vulnerability Modules** — SQL Injection, XSS, SSRF, LFI, CORS, CSRF, IDOR, Open Redirect, and more
-- 📊 **Risk Scoring Engine** — Confidence-weighted score (0–100) with letter grade (A–F)
-- 📄 **JSON + PDF Reports** — Structured JSON output and professional dark-theme PDF report
-- 🎨 **Terminal UI** — Colored logging, stage indicators, and progress bars via colorama
+- 🔍 **Advanced Crawler Engine** <br> BFS crawl with sitemap.xml, robots.txt parsing, form detection, and endpoint classification (static / dynamic / api / auth / admin)
+- 🧠 **Technology Fingerprinting** <br> Passive detection of server, CMS, frameworks, languages, and WAF
+- 🛡 **40+ Vulnerability Modules** <br> SQL Injection, XSS, SSRF, LFI, CORS, CSRF, IDOR, Open Redirect, and more
+- 📊 **Risk Scoring Engine** <br> Confidence-weighted score (0–100) with letter grade (A–F)
+- 📄 **JSON + PDF Reports** <br> Structured JSON output and professional dark-theme PDF report
+- 🎨 **Terminal UI** <br> Colored logging, stage indicators, and progress bars via colorama
 
 ---
 
 ## Installation
 
+#### Clone or extract the project
 ```bash
-# Clone or extract the project
 cd websentinel_framework
-
-# Install dependencies
+```
+#### Install dependencies
+```bash
 pip install -r requirements.txt
 ```
 
@@ -36,23 +37,28 @@ pip install -r requirements.txt
 
 ## Usage
 
+#### Basic passive scan
 ```bash
-# Basic passive scan
 python main.py -u https://example.com -p passive
-
-# Balanced scan (recommended)
+```
+#### Balanced scan (recommended)
+```bash
 python main.py -u https://example.com -p balanced
-
-# Deep safe scan with authentication
+```
+#### Deep safe scan with authentication
+```bash
 python main.py -u https://example.com -p deep-safe --cookies "session=abc123; token=xyz"
-
-# Custom depth and rate limit
+```
+#### Custom depth and rate limit
+```
 python main.py -u https://example.com -p balanced -d 4 --rps 2
-
-# JSON output only
+```
+#### JSON output only
+```bash
 python main.py -u https://example.com -p passive --json-only
-
-# Verbose mode
+```
+#### Verbose mode
+```bash
 python main.py -u https://example.com -p balanced -v
 ```
 
