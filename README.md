@@ -13,25 +13,77 @@ WebSentinel is designed for **authorized security testing only**. You must have 
 
 ## Features
 
-- 🔍 **Advanced Crawler Engine** <br> BFS crawl with sitemap.xml, robots.txt parsing, form detection, and endpoint classification (static / dynamic / api / auth / admin)
-- 🧠 **Technology Fingerprinting** <br> Passive detection of server, CMS, frameworks, languages, and WAF
-- 🛡 **40+ Vulnerability Modules** <br> SQL Injection, XSS, SSRF, LFI, CORS, CSRF, IDOR, Open Redirect, and more
-- 📊 **Risk Scoring Engine** <br> Confidence-weighted score (0–100) with letter grade (A–F)
-- 📄 **JSON + PDF Reports** <br> Structured JSON output and professional dark-theme PDF report
-- 🎨 **Terminal UI** <br> Colored logging, stage indicators, and progress bars via colorama
+-  **Advanced Crawler Engine** <br> BFS crawl with sitemap.xml, robots.txt parsing, form detection, and endpoint classification (static / dynamic / api / auth / admin)
+-  **Technology Fingerprinting** <br> Passive detection of server, CMS, frameworks, languages, and WAF
+-  **40+ Vulnerability Modules** <br> SQL Injection, XSS, SSRF, LFI, CORS, CSRF, IDOR, Open Redirect, and more
+-  **Risk Scoring Engine** <br> Confidence-weighted score (0–100) with letter grade (A–F)
+-  **JSON + PDF Reports** <br> Structured JSON output and professional dark-theme PDF report
+-  **Terminal UI** <br> Colored logging, stage indicators, and progress bars via colorama
 
 ---
 
-## Installation
+## 🚀 Installation
 
-#### Clone or extract the project
+### 1️⃣ Clone the Repository
+
 ```bash
-cd websentinel_framework
+git clone https://github.com/monxcode/webscanner.git
+cd webscanner
 ```
-#### Install dependencies
+
+---
+
+## 🪟 Windows Setup
+
+### Create Virtual Environment (Recommended)
+
+```bash
+python -m venv venv
+```
+
+### Activate Virtual Environment
+
+```bash
+venv\Scripts\activate
+```
+
+### Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
+
+---
+
+## 🐧 Linux / macOS Setup
+
+### Create Virtual Environment
+
+```bash
+python3 -m venv venv
+```
+
+### Activate Virtual Environment
+
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ✅ Verify Installation
+
+```bash
+python main.py --help
+```
+
+If the help menu appears successfully, the installation is complete.
 
 ---
 
@@ -137,5 +189,5 @@ websentinel_framework/
 
 ## License
 
-MIT License — See LICENSE file.  
+MIT License — See [LICENSE](/LICENSE) file.  
 Use responsibly. Only scan systems you are authorized to test.
