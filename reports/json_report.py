@@ -25,6 +25,7 @@ class JSONReporter:
         fingerprint: Dict,
         attack_surface: Dict,
         waf: str = None,
+        auth_summary: Dict = None,
     ):
         self.target = target
         self.scan_profile = scan_profile
@@ -33,6 +34,7 @@ class JSONReporter:
         self.fingerprint = fingerprint
         self.attack_surface = attack_surface
         self.waf = waf
+        self.auth_summary = auth_summary or {"auth_method": "none", "success": False}
 
         scorer = ScoringEngine(findings)
         self.score = scorer.calculate_score()
@@ -55,6 +57,7 @@ class JSONReporter:
                 "attack_surface_summary": self.attack_surface,
                 "technology_fingerprint": self.fingerprint,
                 "waf_detected": self.waf,
+                "authentication": self.auth_summary,
                 "risk_distribution": self.risk_dist,
                 "vulnerability_type_summary": self.type_summary,
                 "vulnerabilities": [f.to_dict() for f in self.findings],

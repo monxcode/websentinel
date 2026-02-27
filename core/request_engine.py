@@ -16,6 +16,25 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 import config
 
 
+
+def _remove_cookie_by_name(jar, name: str) -> None:
+    """
+    Remove every cookie with the given name from a RequestsCookieJar,
+    regardless of domain or path. This prevents CookieConflictError
+    when the same name appears under multiple domain/path combinations.
+    """
+    to_delete = []
+    try:
+        for domain, paths in jar._cookies.items():
+            for path, cookies_dict in paths.items():
+                if name in cookies_dict:
+                    to_delete.append((domain, path, name))
+        for domain, path, n in to_delete:
+            del jar._cookies[domain][path][n]
+    except Exception:
+        pass  # If internal structure changes, degrade gracefully
+
+
 class RequestResult:
     """Container for a single HTTP request result."""
 
@@ -52,6 +71,9 @@ class RequestEngine:
     """
     Intelligent HTTP request engine with rate limiting, retries,
     session management, and configurable delays.
+
+    Session cookies are applied directly without requiring any
+    mandatory token — cookie-only authentication is fully supported.
     """
 
     def __init__(
@@ -74,14 +96,17 @@ class RequestEngine:
         self.delay_range = delay_range
         self._last_request_time: float = 0.0
         self._request_count: int = 0
+        self._auth_cookies: Dict[str, str] = {}
 
-        # Build session
+        # Build persistent session
         self.session = requests.Session()
         self.session.headers.update(config.DEFAULT_HEADERS)
         if extra_headers:
             self.session.headers.update(extra_headers)
+
+        # Apply cookies directly to session jar — no token required
         if cookies:
-            self.session.cookies.update(cookies)
+            self.apply_cookies(cookies)
 
         # Configure retry adapter
         retry = Retry(
@@ -93,6 +118,52 @@ class RequestEngine:
         adapter = HTTPAdapter(max_retries=retry)
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
+
+    def apply_cookies(self, cookies: Dict[str, str]):
+        """
+        Inject cookies into the session cookie jar.
+        Safe to call multiple times — merges with existing cookies.
+        No mandatory token or CSRF requirement.
+
+        Removes ALL pre-existing entries with the same name (across any
+        domain/path) before setting the new value, preventing the
+        CookieConflictError that occurs when dict() is called on a jar
+        that holds the same name under multiple domain/path keys.
+        """
+        for name, value in cookies.items():
+            _remove_cookie_by_name(self.session.cookies, name)
+            self.session.cookies.set(name, value)
+        self._auth_cookies.update(cookies)
+
+
+    def update_headers(self, headers: Dict[str, str]):
+        """Merge additional headers into the session."""
+        self.session.headers.update(headers)
+
+    def get_active_cookies(self) -> Dict[str, str]:
+        """
+        Return all currently active cookies as a plain dict.
+
+        Uses manual iteration over the internal cookie store to safely handle
+        duplicate cookie names (same name, different domain/path) that would
+        cause requests.cookies.CookieConflictError with dict() conversion.
+        Last-seen value wins when names collide — matching browser behaviour.
+        """
+        result: Dict[str, str] = {}
+        try:
+            # Iterate raw internal structure: {domain: {path: {name: cookie}}}
+            for domain_dict in self.session.cookies._cookies.values():
+                for path_dict in domain_dict.values():
+                    for name, cookie in path_dict.items():
+                        result[name] = cookie.value
+        except Exception:
+            # Ultimate fallback — skip conflicting names silently
+            for cookie in self.session.cookies:
+                try:
+                    result[cookie.name] = cookie.value
+                except Exception:
+                    pass
+        return result
 
     def _throttle(self):
         """Enforce rate limiting with optional random jitter."""

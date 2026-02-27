@@ -75,6 +75,7 @@ class PDFReporter:
         fingerprint: Dict,
         attack_surface: Dict,
         waf: str = None,
+        auth_summary: Dict = None,
     ):
         self.target = target
         self.scan_profile = scan_profile
@@ -83,6 +84,7 @@ class PDFReporter:
         self.fingerprint = fingerprint
         self.attack_surface = attack_surface
         self.waf = waf
+        self.auth_summary = auth_summary or {"auth_method": "none", "success": False}
 
         scorer = ScoringEngine(findings)
         self.score = scorer.calculate_score()
@@ -325,6 +327,8 @@ class PDFReporter:
             ["CMS Detected", tech.get("cms") or "None"],
             ["Frameworks", ", ".join(tech.get("frameworks", [])) or "None"],
             ["WAF Detected", self.waf or "None"],
+            ["Auth Method", self.auth_summary.get("auth_method", "none").capitalize()],
+            ["Authenticated Scan", "Yes" if self.auth_summary.get("success") else "No"],
         ]
         tbl = self._make_kv_table(metrics)
         s.append(tbl)
