@@ -28,6 +28,8 @@ WebSentinel is designed for **authorized security testing only**. You must have 
 
 ```bash
 git clone https://github.com/monxcode/webscanner.git
+```
+```bash
 cd webscanner
 ```
 
