@@ -1,1454 +1,722 @@
 <div align="center">
 
 ```
- ██╗    ██╗███████╗██████╗ ███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗
- ██║    ██║██╔════╝██╔══██╗██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║
- ██║ █╗ ██║█████╗  ██████╔╝███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║
- ██║███╗██║██╔══╝  ██╔══██╗╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║
- ╚███╔███╔╝███████╗██████╔╝███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
-  ╚══╝╚══╝ ╚══════╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
+██╗    ██╗███████╗██████╗ ███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗
+██║    ██║██╔════╝██╔══██╗██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║
+██║ █╗ ██║█████╗  ██████╔╝███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║
+██║███╗██║██╔══╝  ██╔══██╗╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║
+╚███╔███╔╝███████╗██████╔╝███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
+ ╚══╝╚══╝ ╚══════╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
 ```
 
-# ⚡ WebSentinel Framework
+# WebSentinel
 
-**Advanced Web Application Security Assessment Tool**
+**Advanced Web Application Security Assessment Framework**
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey?style=flat-square)]()
-[![Security](https://img.shields.io/badge/Use-Authorized%20Testing%20Only-red?style=flat-square)]()
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Version](https://img.shields.io/badge/Version-1.1.0-00D4AA?style=for-the-badge)](https://github.com/monxcode/websentinel)
+[![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20macOS-6366F1?style=for-the-badge)]()
+[![Use](https://img.shields.io/badge/Use-Authorized%20Testing%20Only-EF4444?style=for-the-badge)]()
 
-*A modular, professional-grade security analysis framework for ethical penetration testers, bug bounty hunters, and security researchers.*
+*A modular, non-destructive web vulnerability scanner built for security engineers, penetration testers, and bug bounty hunters.*
+
+[Installation](#installation) · [Usage](#usage) · [Features](#features) · [Documentation](#configuration-options) · [Roadmap](#roadmap)
 
 </div>
 
 ---
 
-## 🚨 Legal Disclaimer — PLEASE READ FIRST
+## Introduction
 
-> **WebSentinel Framework sirf authorized security testing ke liye banaya gaya hai.**
+WebSentinel is a professional-grade web application security assessment framework written in Python. It performs automated, non-destructive vulnerability scanning across 35+ attack categories using a modular architecture designed for scalability and accuracy.
 
-Is tool ka use karne se pehle aapko yeh confirm karna zaroori hai:
+The framework combines intelligent crawling, technology fingerprinting, behavioral anomaly detection, and confidence-weighted risk scoring to produce actionable security reports in both JSON and PDF formats.
 
-- ✅ Aapke paas **target system owner ki EXPLICIT written permission** hai
-- ✅ Aap khud system ke owner hain (apni website test kar rahe hain)
-- ✅ Aap ek authorized penetration tester hain (signed contract/scope ke saath)
-- ✅ Aap bug bounty program ke scope mein test kar rahe hain
+WebSentinel is designed for:
 
-**Bina permission ke scanning illegal hai aur in laws ke under punishable hai:**
-- 🇮🇳 Information Technology Act, 2000 (India) — Section 43, 66
-- 🇺🇸 Computer Fraud and Abuse Act (CFAA) — United States
-- 🇬🇧 Computer Misuse Act — United Kingdom
-- 🇪🇺 EU Directive on Attacks Against Information Systems
-
-> ⚠️ Tool ke authors kisi bhi misuse ke liye liable nahi hain. Tool start hone par aapko ek legal confirmation prompt milega — sirf "yes" type karein agar aap authorized hain.
+- **Security Engineers** running internal application audits
+- **Penetration Testers** conducting authorized assessments
+- **Bug Bounty Hunters** performing reconnaissance on in-scope targets
+- **Developers** validating security posture before production release
 
 ---
 
-## 📋 Table of Contents
+## Features
 
-1. [Changelog](#changelog)
-2. [Tool Overview](#tool-overview)
-3. [Key Features](#key-features)
-4. [System Requirements](#system-requirements)
-5. [Installation Guide](#installation-guide)
-   - [Windows Installation](#windows-installation)
-   - [Linux / macOS Installation](#linux--macos-installation)
-   - [Virtual Environment Setup (Recommended)](#virtual-environment-setup-recommended)
-   - [Verify Installation](#verify-installation)
-6. [Quick Start](#quick-start)
-7. [Scan Profiles](#scan-profiles)
-8. [All Command Line Options](#all-command-line-options)
-9. [Detailed Usage Guide](#detailed-usage-guide)
-   - [Basic Scans](#1-basic-scans)
-   - [Authenticated Scans](#2-authenticated-scans) ⭐ *Updated*
-     - [Mode A — Form-Based Auto-Login](#-mode-a--form-based-auto-login---login)
-     - [Mode B — Direct Cookie Injection](#-mode-b--direct-cookie-injection---cookies)
-     - [Mode C — Session Verification](#-mode-c--session-verification---auth-verify)
-     - [Testing Common Platforms](#-testing-common-platforms)
-   - [Custom Rate Limiting](#3-custom-rate-limiting)
-   - [Bug Bounty Workflow](#4-bug-bounty-workflow)
-   - [API Security Testing](#5-api-security-testing)
-   - [Own Website Testing](#6-own-website-testing)
-10. [Understanding Scan Output](#understanding-scan-output)
-11. [Reports Guide](#reports-guide)
-12. [Vulnerability Coverage](#vulnerability-coverage)
-13. [Scan Stages Explained](#scan-stages-explained)
-14. [Project Structure](#project-structure)
-15. [Configuration Guide](#configuration-guide)
-16. [Troubleshooting](#troubleshooting)
-17. [Use Cases](#use-cases)
-18. [FAQ](#faq)
-
-## 📅 Changelog
+| Category | Capability |
+|---|---|
+| **Crawler** | BFS-based crawler with sitemap.xml parsing, robots.txt support, and form detection |
+| **Authentication** | Form-based auto-login with CSRF extraction, direct cookie injection, session verification |
+| **Fingerprinting** | Passive detection of server, CMS, frameworks, languages, and WAF |
+| **Scanning** | 35+ vulnerability modules across injection, XSS, access control, network, and file categories |
+| **Scoring** | Confidence-weighted risk score (0–100) with letter grade (A–F) |
+| **Reporting** | Structured JSON output and professional dark-theme PDF with charts and remediation guidance |
+| **Rate Control** | Configurable requests/sec, random jitter, per-profile throttling |
+| **Safety** | Fully non-destructive — no data modification, mandatory authorization gate |
 
 ---
 
-### v1.1.0 — Authentication System Update *(Latest)*
+## Vulnerabilities Covered
 
-> **feat: add authentication system with login support and improved session handling**
+### Injection
 
-#### ✅ New Features
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| INJ-01 | SQL Injection | CWE-89 | Critical |
+| INJ-02 | NoSQL Injection | CWE-943 | High |
+| INJ-03 | Command Injection | CWE-78 | Critical |
+| INJ-04 | LDAP Injection | CWE-90 | High |
+| INJ-05 | XML / XXE Injection | CWE-611 | Critical |
 
-| Feature | Flag | Description |
-|---------|------|-------------|
-| **Form-based auto-login** | `--login "user=x&pass=y"` | WebSentinel automatically discovers login form, extracts CSRF token, submits credentials, and captures session |
-| **Session cookie support** | `--cookies "session=abc"` | Inject session cookies directly — **no mandatory token required** |
-| **Post-login scan URL** | `--scan-url https://...` | Specify where to scan after login (auto-resolved if omitted) |
-| **Session verification** | `--auth-verify` | Verify session is active before scan begins |
-| **Combined auth modes** | `--login + --cookies` | Use form login AND pre-set cookies together |
+### Cross-Site Attacks
 
-#### 🔧 Fixes
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| XSS-01 | Reflected XSS | CWE-79 | High |
+| XSS-02 | Stored XSS | CWE-79 | Critical |
+| XSS-03 | DOM-Based XSS | CWE-79 | Medium |
+| XSS-04 | CSRF Token Absence | CWE-352 | Medium |
 
-- **Fixed**: Session cookie not working properly — cookies now injected directly via `session.cookies.set()` without requiring any token
-- **Fixed**: Auth cookies were not persisting across redirects — requests session now properly maintains cookie jar
-- **Fixed**: CSRF token detection was breaking non-CSRF forms — now optional and graceful
+### Access Control
 
-#### 🆕 New Files
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| AC-01 | IDOR | CWE-639 | High |
+| AC-02 | Broken Authentication | CWE-523 | High |
+| AC-03 | Session Hijacking | CWE-598 | High |
+| AC-04 | Broken Access Control | CWE-284 | High |
+| AC-05 | Mass Assignment | CWE-269 | High |
+| AC-06 | Insecure Deserialization | CWE-502 | High |
 
-- `core/auth_handler.py` — Complete authentication engine with `AuthHandler` class and `parse_cookie_string()` utility
+### Network & Protocol
 
-#### ♻️ Changed
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| NET-01 | SSRF | CWE-918 | Critical |
+| NET-02 | Open Redirect | CWE-601 | Medium |
+| NET-03 | CORS Misconfiguration | CWE-942 | High |
+| NET-04 | Host Header Injection | CWE-113 | High |
+| NET-05 | Clickjacking | CWE-1021 | Medium |
+| NET-06 | Cache Poisoning | CWE-444 | High |
+| NET-07 | Missing Security Headers | CWE-693 | Medium |
 
-- `core/request_engine.py` — Added `apply_cookies()`, `update_headers()`, `get_active_cookies()` methods
-- `main.py` — New `--login`, `--scan-url`, `--auth-verify` flags; Auth stage added as Stage 2
-- `reports/json_report.py` — Authentication summary included in JSON output
-- `reports/pdf_report.py` — Auth method shown in executive summary key metrics
+### File & Path
 
-#### 💡 Example Commands (New in v1.1.0)
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| FILE-01 | Local File Inclusion (LFI) | CWE-22 | Critical |
+| FILE-02 | Remote File Inclusion (RFI) | CWE-98 | Critical |
+| FILE-03 | Path Traversal | CWE-22 | Critical |
+| FILE-04 | Unrestricted File Upload | CWE-434 | Medium |
+| FILE-05 | Directory Listing | CWE-548 | Medium |
 
-```bash
-# Login with credentials (auto-discovers form + CSRF)
-python main.py -u https://example.com/login -p balanced \
-  --login "username=admin&password=admin123"
+### Information Disclosure
 
-# Scan with session cookie — no token needed
-python main.py -u https://example.com -p balanced \
-  --cookies "session=abc123"
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| INFO-01 | Sensitive File Exposure | CWE-538 | Critical |
+| INFO-02 | Hardcoded Credentials | CWE-798 | Critical |
+| INFO-03 | Server Banner Disclosure | CWE-200 | Low |
+| INFO-04 | Stack Trace Exposure | CWE-200 | Medium |
 
-# Cookie-only scan (works without CSRF token)
-python main.py -u https://example.com -p deep-safe \
-  --cookies "session=xyz456"
+### Security Configuration
 
-# Login + verify + deep scan
-python main.py -u https://example.com/login -p deep-safe \
-  --login "username=admin&password=secret" \
-  --auth-verify
-```
-
----
-
-### v1.0.0 — Initial Release
-
-- Advanced BFS crawler with sitemap.xml + robots.txt support
-- 35+ vulnerability modules (SQLi, XSS, SSRF, LFI, CORS, and more)
-- Technology fingerprinting (server, CMS, framework, WAF)
-- Risk scoring engine (0–100) with letter grade (A–F)
-- JSON + PDF dual report generation
-- Colored terminal UI with ASCII banner
-
----
-
-## 🔭 Tool Overview
-
-WebSentinel Framework ek **Python-based terminal tool** hai jo automatically website ki security vulnerabilities dhundta hai. Yeh tool:
-
-- Website ko crawl karta hai aur sare endpoints/pages discover karta hai
-- Har endpoint par **35+ vulnerability checks** chalata hai
-- Results ko score (0-100) aur grade (A-F) mein convert karta hai
-- Professional **JSON + PDF reports** generate karta hai
-
-### Yeh tool kaise kaam karta hai?
-
-```
-Target URL Input
-      │
-      ▼
-┌─────────────────┐
-│  Legal Confirm  │  ← Aapki authorization confirm karta hai
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ Tech Fingerprint│  ← Server, CMS, Framework detect karta hai
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Web Crawler    │  ← Sare pages, forms, APIs dhundta hai
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ 35+ Vuln Scans  │  ← Har page par security checks
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Risk Scoring   │  ← Score calculate, grade assign
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ JSON + PDF Report│  ← Professional reports save
-└─────────────────┘
-```
+| ID | Module | CWE | Severity |
+|---|---|---|---|
+| CFG-01 | Weak Cryptography | CWE-327 | Medium |
+| CFG-02 | API Misconfiguration | CWE-200 | Medium |
+| CFG-03 | Rate Limiting Absent | CWE-307 | Medium |
+| CFG-04 | Subdomain Takeover | CWE-285 | Critical |
 
 ---
 
-## ✨ Key Features
+## Installation
 
-| Feature | Description |
-|---------|-------------|
-| 🕷️ **Smart Crawler** | BFS-based crawler jo sitemap.xml, robots.txt, forms, aur hidden endpoints discover karta hai |
-| 🧠 **Tech Fingerprinting** | Server, CMS (WordPress/Drupal/etc), frameworks, languages, aur WAF passive detection |
-| 🔍 **35+ Vuln Modules** | SQL Injection se lekar Cache Poisoning tak — sab non-destructive |
-| ⚖️ **Risk Scoring** | Confidence-weighted 0-100 score + A-F grade with full distribution |
-| 📄 **Dual Reports** | Structured JSON (machine-readable) + Dark-theme professional PDF |
-| 🎨 **Rich Terminal UI** | Colorful ASCII banner, stage indicators, real-time progress bars |
-| 🔒 **Rate Limiting** | Configurable requests/sec with random jitter to avoid overloading |
-| 🔑 **Auth Support** | Cookie-based authenticated session testing |
-| 🛡️ **Non-Destructive** | Sirf observe karta hai — koi data delete/modify nahi karta |
-| 🧩 **Modular Design** | Har vulnerability ek alag module — easily extendable |
+### Prerequisites
 
----
-
-## 💻 System Requirements
-
-### Minimum Requirements
-
-| Component | Requirement |
-|-----------|-------------|
-| **OS** | Windows 10/11, Ubuntu 18.04+, macOS 10.14+, Kali Linux |
-| **Python** | 3.8 or higher |
-| **RAM** | 512 MB minimum (1 GB recommended) |
-| **Storage** | 100 MB free space |
-| **Network** | Active internet connection to target |
-| **Permissions** | Normal user (no root/admin required) |
-
-### Python Version Check karo
+Ensure Python 3.8 or higher is installed on your system.
 
 ```bash
 python --version
-# ya
-python3 --version
 ```
 
-Agar Python 3.8+ installed hai toh aage badho. Nahi toh pehle install karo:
-- **Windows**: https://www.python.org/downloads/
-- **Ubuntu/Debian**: `sudo apt install python3 python3-pip`
-- **macOS**: `brew install python3`
-- **Kali Linux**: Python3 already installed hota hai
+### Step 1 — Clone the Repository
 
----
-
-## 🛠️ Installation Guide
-
-### Windows Installation
-
-**Step 1: Python install karo**
-```cmd
-:: Python official site se download karo
-:: https://www.python.org/downloads/
-:: Installation mein "Add Python to PATH" checkbox zaroor tick karo
+```bash
+git clone https://github.com/monxcode/websentinel.git
+cd websentinel
 ```
 
-**Step 2: Project folder mein jao**
-```cmd
-cd websentinel_framework
+### Step 2 — Create a Virtual Environment
+
+**Linux / macOS**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-**Step 3: Virtual environment banao (recommended)**
-```cmd
+**Windows**
+
+```powershell
 python -m venv venv
 venv\Scripts\activate
 ```
 
-**Step 4: Dependencies install karo**
-```cmd
+### Step 3 — Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-**Step 5: Test karo**
-```cmd
+### Step 4 — Verify Installation
+
+```bash
 python main.py --help
 ```
 
 ---
 
-### Linux / macOS Installation
+## Requirements
 
-**Step 1: System packages update karo**
-```bash
-# Ubuntu/Debian/Kali
-sudo apt update && sudo apt install python3 python3-pip python3-venv git -y
+| Package | Version | Purpose |
+|---|---|---|
+| `requests` | ≥ 2.31.0 | HTTP request engine |
+| `beautifulsoup4` | ≥ 4.12.0 | HTML parsing and form detection |
+| `colorama` | ≥ 0.4.6 | Cross-platform terminal colors |
+| `reportlab` | ≥ 4.0.4 | PDF report generation |
+| `lxml` | ≥ 4.9.0 | XML and sitemap parsing |
+| `urllib3` | ≥ 2.0.0 | HTTP connection pooling |
 
-# CentOS/RHEL/Fedora
-sudo dnf install python3 python3-pip -y
+**System Requirements**
 
-# macOS (Homebrew)
-brew install python3
-```
-
-**Step 2: Project folder mein jao**
-```bash
-cd websentinel_framework
-```
-
-**Step 3: Dependencies install karo**
-```bash
-pip3 install -r requirements.txt
-```
-
-**Step 4: Test karo**
-```bash
-python3 main.py --help
-```
+| Component | Minimum |
+|---|---|
+| Python | 3.8+ |
+| RAM | 512 MB |
+| Disk | 100 MB |
+| OS | Linux, Windows 10+, macOS 10.14+ |
 
 ---
 
-### Virtual Environment Setup (Recommended)
+## Usage
 
-Virtual environment use karna best practice hai — yeh aapke system Python ko affect nahi karta.
-
-```bash
-# ─── Linux / macOS ───────────────────────────────
-cd websentinel_framework
-
-# Virtual environment banao
-python3 -m venv venv
-
-# Activate karo
-source venv/bin/activate
-
-# Dependencies install karo
-pip install -r requirements.txt
-
-# Jab kaam khatam ho, deactivate karo
-deactivate
-
-# ─── Windows ─────────────────────────────────────
-cd websentinel_framework
-
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-> 💡 **Tip**: Har baar tool use karne se pehle virtual environment activate karo.
-
----
-
-### Verify Installation
-
-Sabhi dependencies sahi install hui hain ya nahi, yeh check karo:
+### Basic Scan
 
 ```bash
-python3 -c "
-import requests
-import bs4
-import colorama
-import reportlab
-print('✅ requests     OK')
-print('✅ beautifulsoup4 OK')
-print('✅ colorama     OK')
-print('✅ reportlab    OK')
-print()
-print('🎉 Sab dependencies sahi install hain!')
-"
+python main.py -u https://target.com -p balanced
 ```
 
-Agar koi error aaye:
-```bash
-# Individual package install karo
-pip install requests
-pip install beautifulsoup4
-pip install colorama
-pip install reportlab
-pip install lxml
-pip install urllib3
-```
-
----
-
-## 🚀 Quick Start
-
-Pehli baar use karne ke liye:
+### Passive Reconnaissance
 
 ```bash
-# Apni khud ki website test karo (SIRF authorized target!)
-python3 main.py -u https://yourdomain.com -p passive
-
-# Tool start hoga → Legal disclaimer dikhega → "yes" type karo → Scan shuru
+python main.py -u https://target.com -p passive
 ```
 
-**Expected output:**
-```
-╔══════════════════════════════════════╗
-║     LEGAL DISCLAIMER & WARNING      ║
-╚══════════════════════════════════════╝
-
-  Do you have EXPLICIT authorization to scan this target? [yes/NO]: yes
-
-  [STAGE 01] Initializing Engines
-  [STAGE 02] Technology Fingerprinting
-  [STAGE 03] Web Crawling & Endpoint Discovery
-  [STAGE 04] Endpoint Classification
-  [STAGE 05] Vulnerability Scanning
-  [STAGE 06] Risk Scoring
-  [STAGE 07] Report Generation
-
-  ╔══════════════════════════════╗
-  ║   WEBSENTINEL SCAN COMPLETE  ║
-  ╠══════════════════════════════╣
-  ║ Security Score : 72/100      ║
-  ║ Security Grade : C           ║
-  ╚══════════════════════════════╝
-```
-
-Reports `websentinel_output/` folder mein save hongi.
-
----
-
-## 📊 Scan Profiles
-
-WebSentinel mein **3 scan profiles** hain — target aur requirement ke hisaab se choose karo:
-
-### `passive` — Sirf Dekho, Chuo Mat
-```bash
-python3 main.py -u https://example.com -p passive
-```
-- **Kya karta hai**: Sirf observe karta hai, koi payload nahi bhejta
-- **Depth**: 2 levels
-- **Speed**: 1 request/second
-- **Best for**: Production systems jo sensitive hain, initial reconnaissance
-- **Checks**: Security headers, tech fingerprinting, cookie flags, info disclosure
-- **Risk**: Almost zero — like a normal browser visit
-
-### `balanced` — Default, Recommended
-```bash
-python3 main.py -u https://example.com -p balanced
-```
-- **Kya karta hai**: Active vulnerability testing with safe payloads
-- **Depth**: 3 levels
-- **Speed**: 3 requests/second
-- **Best for**: Regular security assessments, bug bounty programs
-- **Checks**: SQL injection, XSS, SSRF, CORS, headers, session analysis, + sab passive checks
-- **Risk**: Low — non-destructive payloads use hote hain
-
-### `deep-safe` — Comprehensive Full Scan
-```bash
-python3 main.py -u https://example.com -p deep-safe
-```
-- **Kya karta hai**: Full parameter fuzzing + sab vulnerability modules
-- **Depth**: 5 levels
-- **Speed**: 5 requests/second
-- **Best for**: Dedicated pentest environments, CTF, staging servers
-- **Checks**: Sab modules + parameter fuzzing + full endpoint enumeration
-- **Risk**: Medium — zyada requests jaate hain, WAF trigger ho sakta hai
-
-| Profile | Depth | Speed | Injection | Fuzzing | Use Case |
-|---------|-------|-------|-----------|---------|----------|
-| passive | 2 | 1 rps | ❌ | ❌ | Recon only |
-| balanced | 3 | 3 rps | ✅ | ❌ | Standard pentest |
-| deep-safe | 5 | 5 rps | ✅ | ✅ | Full assessment |
-
----
-
-## ⚙️ All Command Line Options
+### Deep Scan
 
 ```bash
-python3 main.py [OPTIONS]
+python main.py -u https://target.com -p deep-safe -d 4
 ```
 
-### Target Options
+### Form-Based Authentication
 
-| Option | Short | Default | Description |
-|--------|-------|---------|-------------|
-| `--url` | `-u` | Required | Target URL. When `--login` is used, this is the **login page URL** |
-| `--scan-url` | — | Auto | URL to crawl after login. Defaults to base domain of `--url` |
-
-### Scan Settings
-
-| Option | Short | Default | Description |
-|--------|-------|---------|-------------|
-| `--profile` | `-p` | `balanced` | Scan profile: `passive` / `balanced` / `deep-safe` |
-| `--depth` | `-d` | Profile default | Crawl depth override |
-| `--no-robots` | — | False | Ignore robots.txt disallow rules |
-
-### Authentication Options *(New in v1.1.0)*
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `--login "user=x&pass=y"` | — | **Form-based auto-login** — WebSentinel finds the form, adds CSRF token, logs in, captures session |
-| `--cookies "name=val"` | — | **Direct cookie injection** — session cookie without needing any token |
-| `--auth-verify` | False | Verify session is active before scanning |
-
-> ✅ `--cookies` works with just a session cookie — **no CSRF token or additional token required**.  
-> ✅ `--login` and `--cookies` can be **combined** (e.g., login + pre-set remember_me cookie).
-
-### Request Engine
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `--rps` | Profile default | Max requests per second |
-| `--delay` | Profile default | Fixed delay in seconds between requests |
-| `--timeout` | `15` | Request timeout in seconds |
-
-### Output
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `--output-dir` | `websentinel_output` | Report output directory |
-| `--json-only` | False | Skip PDF, generate JSON only |
-| `--no-pdf` | False | Skip PDF report |
-| `--verbose` / `-v` | False | Debug output |
-
-### Quick Option Examples
+WebSentinel will automatically discover the login form, extract CSRF tokens, submit credentials, and carry the resulting session through the entire scan.
 
 ```bash
-# Custom depth
-python3 main.py -u https://example.com -p balanced -d 5
-
-# Very slow scan (production)
-python3 main.py -u https://example.com -p passive --rps 0.5 --delay 3
-
-# Custom output folder
-python3 main.py -u https://example.com -p balanced --output-dir ./my_reports
-
-# Slow + verbose debug
-python3 main.py -u https://example.com -p balanced --rps 1 -v
-
-# Skip PDF, JSON only
-python3 main.py -u https://example.com -p passive --json-only
-
-# robots.txt ignore + deep scan
-python3 main.py -u https://example.com -p deep-safe --no-robots
+python main.py -u https://target.com/login -p balanced --login "username=admin&password=secret"
 ```
 
----
-
-## 📖 Detailed Usage Guide
-
-### 1. Basic Scans
-
-#### Apni website ka quick health check
 ```bash
-python3 main.py -u https://mywebsite.com -p passive
+python main.py -u https://target.com/login -p balanced --login "email=admin@target.com&password=Admin@123"
 ```
-> Yeh scan ~2-3 minutes mein complete hoga aur basic security issues batayega.
 
-#### Standard security assessment
+### Session Cookie Injection
+
+Inject a session cookie directly. No additional token is required.
+
 ```bash
-python3 main.py -u https://mywebsite.com -p balanced
+python main.py -u https://target.com -p balanced --cookies "session=abc123"
 ```
-> ~10-20 minutes, sab major vulnerabilities check karega.
 
-#### Full comprehensive scan
 ```bash
-python3 main.py -u https://mywebsite.com -p deep-safe -d 4
+python main.py -u https://target.com -p balanced --cookies "PHPSESSID=abc123; user_id=42; role=admin"
 ```
-> ~30-60 minutes, maximum coverage.
 
----
-
-### 2. Authenticated Scans
-
-WebSentinel v1.1.0 mein **2 authentication modes** hain:
-
----
-
-#### 🔑 Mode A — Form-Based Auto-Login (`--login`)
-
-WebSentinel khud login form dhundega, CSRF token capture karega, credentials submit karega, aur resulting session cookies ko automatically scan mein use karega.
+### Scan After Login with Custom Scan Target
 
 ```bash
-# Basic login — standard username/password fields
-python3 main.py -u https://example.com/login -p balanced \
-  --login "username=admin&password=admin123"
-
-# Email-based login
-python3 main.py -u https://example.com/login -p balanced \
-  --login "email=admin@example.com&password=Admin@123"
-
-# Custom field names (WebSentinel auto-maps them)
-python3 main.py -u https://example.com/auth -p balanced \
-  --login "user_email=admin@site.com&user_password=secret123"
-
-# Login + specify where to scan after (if login and app are different paths)
-python3 main.py -u https://example.com/login -p balanced \
+python main.py -u https://target.com/login -p balanced \
   --login "username=admin&password=secret" \
-  --scan-url https://example.com/dashboard
+  --scan-url https://target.com/dashboard
+```
 
-# Login + extra cookies combined (e.g., remember_me flag)
-python3 main.py -u https://example.com/login -p deep-safe \
+### Authenticated Scan with Verification
+
+```bash
+python main.py -u https://target.com/login -p deep-safe \
   --login "username=admin&password=secret" \
-  --cookies "remember_me=1; theme=dark"
-```
-
-**Yeh kaise kaam karta hai (internally):**
-```
-1. GET login page  →  form discover karta hai
-2. CSRF token automatically extract karta hai (agar hai toh)
-3. POST credentials (with CSRF token) → login submit
-4. Redirect / response analyze karta hai → success/failure detect
-5. Session cookies capture → session mein apply
-6. --scan-url ya base domain se crawl shuru
-```
-
-> 💡 **Auto-detection**: WebSentinel automatically `username`, `email`, `user`, `login` jaise field names detect karta hai. Aapko field names manually specify nahi karne padte.
-
----
-
-#### 🍪 Mode B — Direct Cookie Injection (`--cookies`)
-
-Agar aapke paas already session cookie hai (browser se copy ki hui), toh directly inject karo. **Koi token ya CSRF required nahi** — sirf cookie string dena hai.
-
-```bash
-# Single session cookie — no token needed
-python3 main.py -u https://example.com -p balanced \
-  --cookies "session=abc123"
-
-# Cookie without any token — works perfectly
-python3 main.py -u https://example.com -p deep-safe \
-  --cookies "session=xyz456"
-
-# PHP session cookie
-python3 main.py -u https://example.com -p balanced \
-  --cookies "PHPSESSID=abc123def456"
-
-# Django session
-python3 main.py -u https://django-app.com -p balanced \
-  --cookies "sessionid=abcdef123456"
-
-# Multiple cookies (semicolon-separated)
-python3 main.py -u https://app.example.com -p balanced \
-  --cookies "PHPSESSID=abc123; user_id=42; role=admin"
-
-# WordPress admin scan
-python3 main.py -u https://myblog.com -p balanced \
-  --cookies "wordpress_logged_in_abc=user%7C1234%7Ctoken; wp-settings-1=mfolded"
-
-# JWT token as cookie
-python3 main.py -u https://api.example.com -p balanced \
-  --cookies "access_token=eyJhbGciOiJIUzI1NiJ9.abc.xyz"
-```
-
-**Cookie kaise copy karein (browser se):**
-```
-Chrome / Edge:
-  1. F12 → Application tab
-  2. Storage → Cookies → apna domain
-  3. Name + Value copy karo
-
-Firefox:
-  1. F12 → Storage tab
-  2. Cookies → apna domain
-  3. Name + Value copy karo
-
-Ya: curl ke saath login karo aur -c flag se cookies save karo:
-  curl -c cookies.txt -d "username=admin&password=secret" https://example.com/login
-  # Ab cookie file se value copy karo
-```
-
----
-
-#### 🔒 Mode C — Session Verification (`--auth-verify`)
-
-Scan se pehle verify karo ki session actually authenticated hai:
-
-```bash
-python3 main.py -u https://example.com -p balanced \
-  --cookies "session=abc123" \
   --auth-verify
 ```
 
-Output mein dikhega:
-```
-  [SUCCESS] ✔  Session verified: Authenticated session confirmed
-  [INFO   ] ℹ  Active session cookies (1): ['session']
-```
-
----
-
-#### 🔗 Mode Combination — Login + Pre-set Cookies
-
-Dono modes saath use karo jab login ke saath kuch extra cookies bhi chahiye:
+### Login and Cookie Combined
 
 ```bash
-# Login karao + additional cookies inject karo
-python3 main.py -u https://example.com/login -p balanced \
+python main.py -u https://target.com/login -p balanced \
   --login "username=admin&password=secret" \
-  --cookies "remember_token=xyz; analytics_opt=1"
+  --cookies "remember_me=1"
 ```
 
----
-
-#### 📋 Authentication in Reports
-
-Har report (JSON + PDF) mein authentication summary included hoti hai:
-
-```json
-"authentication": {
-  "auth_method": "form",
-  "success": true,
-  "login_url": "https://example.com/login",
-  "post_login_url": "https://example.com/dashboard",
-  "session_cookies": ["sessionid", "csrftoken"],
-  "csrf_token_found": true
-}
-```
-
----
-
-#### 🧪 Testing Common Platforms
+### Custom Rate Limit and Output Directory
 
 ```bash
-# ── WordPress ─────────────────────────────────────────────
-python3 main.py -u https://myblog.com/wp-login.php -p balanced \
-  --login "log=admin&pwd=admin123"
-
-# ── Django (auto-discovers csrfmiddlewaretoken) ──────────
-python3 main.py -u https://django-app.com/accounts/login -p balanced \
-  --login "username=admin&password=admin123"
-
-# ── Laravel (auto-discovers _token) ──────────────────────
-python3 main.py -u https://laravel-app.com/login -p balanced \
-  --login "email=admin@example.com&password=admin123"
-
-# ── Generic PHP app ──────────────────────────────────────
-python3 main.py -u https://php-app.com/login.php -p balanced \
-  --login "username=admin&password=admin123" \
-  --cookies "PHPSESSID=pre_existing_session"
-
-# ── DVWA (local testing lab) ──────────────────────────────
-python3 main.py -u http://localhost/dvwa/login.php -p deep-safe \
-  --login "username=admin&password=password" \
-  --cookies "security=low"
-
-# ── WebGoat (local testing lab) ──────────────────────────
-python3 main.py -u http://localhost:8080/WebGoat/login -p deep-safe \
-  --login "username=guest&password=guest"
+python main.py -u https://target.com -p balanced --rps 1 --delay 2 --output-dir ./reports
 ```
 
----
-
-### 3. Custom Rate Limiting
-
-Slow server ya production system ke liye:
+### JSON Report Only
 
 ```bash
-# Bahut slow scan (1 request har 3 seconds)
-python3 main.py -u https://example.com -p balanced --rps 0.33 --delay 3
-
-# Medium speed
-python3 main.py -u https://example.com -p balanced --rps 2
-
-# Faster scan (only if you have permission and server can handle it)
-python3 main.py -u https://example.com -p deep-safe --rps 10
+python main.py -u https://target.com -p balanced --json-only
 ```
 
-> ⚠️ Production servers par zyada speed mat use karo — server down ho sakta hai.
-
----
-
-### 4. Bug Bounty Workflow
-
-Bug bounty programs ke liye recommended workflow:
+### Verbose Debug Mode
 
 ```bash
-# Step 1: Initial passive recon (always start here)
-python3 main.py -u https://target.com -p passive \
-  --output-dir ./recon_phase
-
-# Step 2: Active balanced scan
-python3 main.py -u https://target.com -p balanced \
-  --output-dir ./active_scan
-
-# Step 3: Authenticated scan with --login (create free account first)
-python3 main.py -u https://target.com/login -p balanced \
-  --login "username=youruser&password=yourpass" \
-  --output-dir ./auth_scan
-
-# Step 4: Authenticated scan with session cookie
-python3 main.py -u https://target.com -p balanced \
-  --cookies "session=your_session_here" \
-  --output-dir ./cookie_scan
-
-# Step 5: API deep scan
-python3 main.py -u https://api.target.com -p deep-safe \
-  --cookies "Authorization=Bearer your_jwt_token" \
-  --output-dir ./api_scan
+python main.py -u https://target.com -p balanced -v
 ```
 
-> 📋 **Tip**: Reports mein findings ko program ke disclosure guidelines ke hisaab se report karo. JSON report machine-readable hai — isko automation mein use kar sakte ho.
-
----
-
-### 5. API Security Testing
-
-REST API endpoints test karne ke liye:
+### Ignore robots.txt
 
 ```bash
-# API base URL target karo
-python3 main.py -u https://api.example.com -p balanced \
-  --cookies "Authorization=Bearer eyJhbGc..." \
-  --no-robots
-
-# Deep API scan
-python3 main.py -u https://api.example.com/v1 -p deep-safe \
-  --cookies "api_key=your_key_here" \
-  -d 3
-```
-
-WebSentinel API endpoints ke liye automatically check karta hai:
-- `/api/`, `/v1/`, `/v2/`, `/graphql`, `/rest/` patterns
-- Debug endpoints: `/actuator`, `/swagger`, `/health`, `/metrics`
-- Mass assignment, rate limiting, authentication bypass
-
----
-
-### 6. Own Website Testing (Self-Assessment)
-
-Apni website ki security regularly check karo:
-
-```bash
-# Local development server
-python3 main.py -u http://localhost:8000 -p deep-safe
-
-# Staging environment (production se pehle)
-python3 main.py -u https://staging.myapp.com -p deep-safe \
-  --output-dir ./security_audit_$(date +%Y%m%d)
-
-# Production (sirf passive — careful!)
-python3 main.py -u https://myapp.com -p passive \
-  --rps 1 --delay 2
+python main.py -u https://target.com -p balanced --no-robots
 ```
 
 ---
 
-## 📈 Understanding Scan Output
+## Configuration Options
 
-### Terminal Output During Scan
+### Scan Profiles
 
-```
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    STAGE 01  ►  INITIALIZING ENGINES
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+| Profile | Depth | Rate | Injection | Fuzzing | Recommended For |
+|---|---|---|---|---|---|
+| `passive` | 2 | 1 rps | No | No | Production systems, initial recon |
+| `balanced` | 3 | 3 rps | Yes | No | Standard assessments, bug bounty |
+| `deep-safe` | 5 | 5 rps | Yes | Yes | Staging environments, full audits |
 
-  [10:23:45] [INFO   ] ℹ  Target       : https://example.com
-  [10:23:45] [INFO   ] ℹ  Profile      : balanced
-  [10:23:46] [SUCCESS] ✔  Server      : Apache/2.4.51
-  [10:23:46] [SUCCESS] ✔  CMS         : WordPress
-  [10:23:48] [INFO   ] ℹ  Sitemap: 45 URLs discovered
-  [10:23:52] [VULN   ] 🔥 HIGH: Reflected XSS in parameter 'q' @ /search?q=
-  [10:23:55] [VULN   ] 🔥 CRITICAL: SQL Injection in parameter 'id' @ /post?id=
-  [10:24:01] [SAFE   ] 🛡  CORS properly configured on /api/data
-```
+### Command Line Reference
 
-### Log Level Colors
+**Target**
 
-| Color | Level | Meaning |
-|-------|-------|---------|
-| 🔵 Cyan | INFO | General information |
-| 🟢 Green | SUCCESS | Successful check / Safe |
-| 🟡 Yellow | WARNING | Potential issue |
-| 🔴 Red | ERROR | Error / Critical Finding |
-| 🟣 Magenta | CRITICAL | Critical vulnerability |
-| 🔴 Red | VULN | Vulnerability found |
-| 🟢 Green | SAFE | No vulnerability |
+| Flag | Default | Description |
+|---|---|---|
+| `-u`, `--url` | Required | Target URL. Use the login page URL when `--login` is specified |
+| `--scan-url` | Auto-resolved | URL to crawl after authentication |
 
-### Final Summary Box
+**Scan Settings**
 
-```
-  ╔═══════════════════════════════════════════════╗
-  ║          WEBSENTINEL SCAN COMPLETE            ║
-  ╠═══════════════════════════════════════════════╣
-  ║ Target          : https://example.com         ║
-  ║ Profile         : balanced                    ║
-  ║ Scan Duration   : 12m 34s                     ║
-  ║ Requests Made   : 847                         ║
-  ║                                               ║
-  ║ Endpoints       : 124                         ║
-  ║ Total Findings  : 23                          ║
-  ║                                               ║
-  ║   Critical      : 2                           ║
-  ║   High          : 5                           ║
-  ║   Medium        : 9                           ║
-  ║   Low           : 7                           ║
-  ║                                               ║
-  ║ Security Score  : 48/100                      ║
-  ║ Security Grade  : D                           ║
-  ╚═══════════════════════════════════════════════╝
-```
+| Flag | Default | Description |
+|---|---|---|
+| `-p`, `--profile` | `balanced` | Scan profile: `passive`, `balanced`, or `deep-safe` |
+| `-d`, `--depth` | Profile default | Crawl depth override |
+| `--no-robots` | `False` | Ignore robots.txt disallow rules |
 
-### Security Score Explained
+**Authentication**
 
-| Score | Grade | Meaning | Action Required |
-|-------|-------|---------|-----------------|
-| 90–100 | **A** | Excellent security posture | Minor improvements, keep monitoring |
-| 75–89 | **B** | Good, few issues | Fix medium/low findings |
-| 60–74 | **C** | Moderate risk | Prioritize high findings |
-| 40–59 | **D** | Poor security | Immediate action on critical/high |
-| 0–39 | **F** | Critical risk | Emergency remediation needed |
+| Flag | Default | Description |
+|---|---|---|
+| `--login` | — | Credential string for form-based login (`field=value&field=value`) |
+| `--cookies` | — | Session cookie string (`name=value; name=value`) |
+| `--auth-verify` | `False` | Verify session is active before scanning begins |
+
+**Request Engine**
+
+| Flag | Default | Description |
+|---|---|---|
+| `--rps` | Profile default | Maximum requests per second |
+| `--delay` | Profile default | Fixed delay in seconds between requests |
+| `--timeout` | `15` | Request timeout in seconds |
+
+**Output**
+
+| Flag | Default | Description |
+|---|---|---|
+| `--output-dir` | `websentinel_output` | Directory for generated reports |
+| `--json-only` | `False` | Skip PDF and generate JSON only |
+| `--no-pdf` | `False` | Skip PDF report generation |
+| `-v`, `--verbose` | `False` | Enable debug-level output |
 
 ---
 
-## 📄 Reports Guide
+## Project Structure
 
-### Report Location
 ```
-websentinel_output/
-├── websentinel_report.json    ← Machine-readable data
-└── websentinel_report.pdf     ← Professional PDF
-```
-
-Custom location ke liye:
-```bash
-python3 main.py -u https://example.com -p balanced --output-dir /path/to/my/reports
+websentinel/
+│
+├── main.py                          Entry point and scan orchestration
+├── config.py                        Payloads, signatures, thresholds, profiles
+├── requirements.txt                 Python dependencies
+├── LICENSE
+│
+├── core/
+│   ├── auth_handler.py              Form login, cookie injection, session verification
+│   ├── crawler.py                   BFS web crawler with form and link extraction
+│   ├── diff_engine.py               Baseline vs probe response comparison
+│   ├── request_engine.py            HTTP engine with throttling and retry logic
+│   ├── response_analyzer.py         Header, cookie, and pattern analysis
+│   └── scorer.py                    Risk scoring and letter grade calculation
+│
+├── modules/
+│   ├── base_module.py               Abstract base class for all vulnerability modules
+│   ├── injection_modules.py         SQL, NoSQL, Command, LDAP, XML injection
+│   ├── xss_modules.py               Reflected, Stored, DOM XSS and CSRF
+│   ├── access_modules.py            IDOR, Broken Auth, Session, Access Control
+│   ├── network_modules.py           SSRF, Open Redirect, CORS, Headers, Clickjacking
+│   ├── file_modules.py              LFI, RFI, Path Traversal, File Upload, Disclosure
+│   └── misc_modules.py              API config, Mass Assignment, Crypto, Takeover
+│
+├── intelligence/
+│   ├── endpoint_classifier.py       Endpoint type detection and module routing
+│   ├── fingerprint.py               Technology stack and WAF detection
+│   └── risk_matrix.py               Risk matrix and OWASP remediation database
+│
+├── reports/
+│   ├── json_report.py               Structured JSON report generator
+│   └── pdf_report.py                Professional PDF report with charts
+│
+└── utils/
+    ├── helpers.py                   URL normalization, deduplication, utilities
+    └── logger.py                    Colored terminal logger with ASCII banner
 ```
 
 ---
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         main.py                                  │
+│                    Scan Orchestrator                             │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+          ┌──────────────────┼──────────────────┐
+          │                  │                  │
+          ▼                  ▼                  ▼
+  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐
+  │ AuthHandler  │  │  Fingerprint │  │  CrawlerEngine   │
+  │              │  │  Engine      │  │                  │
+  │ Form Login   │  │              │  │ BFS Crawler      │
+  │ Cookie Inject│  │ Server / CMS │  │ Sitemap Parser   │
+  │ CSRF Capture │  │ Framework    │  │ Form Detector    │
+  │ Verification │  │ WAF          │  │ Endpoint Map     │
+  └──────┬───────┘  └──────────────┘  └────────┬─────────┘
+         │                                      │
+         ▼                                      ▼
+  ┌──────────────┐                    ┌──────────────────┐
+  │  Request     │◄───────────────────│ Endpoint         │
+  │  Engine      │                    │ Classifier       │
+  │              │                    │                  │
+  │ Rate Limiter │                    │ Type Detection   │
+  │ Retry Logic  │                    │ Module Routing   │
+  │ Session Mgmt │                    │ Priority Scoring │
+  └──────┬───────┘                    └──────────────────┘
+         │
+         ▼
+  ┌──────────────────────────────────────────────────────┐
+  │                  Vulnerability Modules               │
+  │                                                      │
+  │  injection_modules   xss_modules   access_modules    │
+  │  network_modules     file_modules  misc_modules      │
+  └──────────────────────────────┬───────────────────────┘
+                                 │
+                    ┌────────────┼────────────┐
+                    │            │            │
+                    ▼            ▼            ▼
+             ┌──────────┐ ┌──────────┐ ┌──────────────┐
+             │  Diff    │ │  Risk    │ │   Reports    │
+             │  Engine  │ │  Scorer  │ │              │
+             │          │ │          │ │ json_report  │
+             │ Baseline │ │ 0–100    │ │ pdf_report   │
+             │ Anomaly  │ │ Grade A–F│ │              │
+             └──────────┘ └──────────┘ └──────────────┘
+```
+
+**Scan Pipeline — 8 Stages**
+
+| Stage | Name | Description |
+|---|---|---|
+| 01 | Initialize | Request engine, session, rate limiter setup |
+| 02 | Authenticate | Form login or cookie injection, session validation |
+| 03 | Fingerprint | Passive server, CMS, framework, and WAF detection |
+| 04 | Crawl | BFS endpoint discovery via links, sitemaps, and forms |
+| 05 | Classify | Endpoint type assignment and module recommendation |
+| 06 | Scan | Vulnerability modules run in priority order |
+| 07 | Score | Confidence-weighted risk calculation and grading |
+| 08 | Report | JSON and PDF report generation |
+
+---
+
+## Output / Report Example
+
+### Terminal Output
+
+```
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    STAGE 03  ►  TECHNOLOGY FINGERPRINTING
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [10:14:22] [SUCCESS] ✔  Server      : nginx/1.24.0
+  [10:14:22] [SUCCESS] ✔  CMS         : WordPress 6.4
+  [10:14:22] [SUCCESS] ✔  Frameworks  : React, jQuery
+  [10:14:22] [SUCCESS] ✔  Languages   : PHP, JavaScript
+  [10:14:22] [INFO   ] ℹ  WAF         : Cloudflare
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    STAGE 06  ►  VULNERABILITY SCANNING
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [10:17:43] [VULN   ] 🔥 CRITICAL : SQL Injection → /post?id=1  (param: id)
+  [10:17:51] [VULN   ] 🔥 HIGH     : Reflected XSS → /search?q=  (param: q)
+  [10:18:04] [VULN   ] 🔥 HIGH     : CORS Misconfiguration → /api/data
+  [10:18:12] [VULN   ] 🔥 MEDIUM   : Missing Content-Security-Policy header
+  [10:18:19] [SAFE   ] 🛡  SAFE    : CSRF tokens present on all forms
+
+  ╔══════════════════════════════════════════════╗
+  ║         WEBSENTINEL SCAN COMPLETE            ║
+  ╠══════════════════════════════════════════════╣
+  ║ Target          : https://target.com         ║
+  ║ Profile         : balanced                   ║
+  ║ Auth Mode       : Form Login                 ║
+  ║ Session Cookies : 2                          ║
+  ║ Scan Duration   : 14m 22s                    ║
+  ║ Requests Made   : 1,043                      ║
+  ║                                              ║
+  ║ Endpoints       : 178                        ║
+  ║ Total Findings  : 21                         ║
+  ║                                              ║
+  ║   Critical      : 3                          ║
+  ║   High          : 7                          ║
+  ║   Medium        : 8                          ║
+  ║   Low           : 3                          ║
+  ║                                              ║
+  ║ Security Score  : 44 / 100                   ║
+  ║ Security Grade  : D                          ║
+  ╚══════════════════════════════════════════════╝
+```
+
+### Security Grade Scale
+
+| Score | Grade | Meaning |
+|---|---|---|
+| 90 – 100 | **A** | Excellent security posture |
+| 75 – 89 | **B** | Good, minor issues present |
+| 60 – 74 | **C** | Moderate risk, action recommended |
+| 40 – 59 | **D** | Poor security, immediate attention required |
+| 0 – 39 | **F** | Critical risk, emergency remediation required |
 
 ### JSON Report Structure
 
 ```json
 {
   "websentinel_report": {
-    "version": "1.0.0",
-    "target": "https://example.com",
+    "version": "1.1.0",
+    "target": "https://target.com",
     "scan_profile": "balanced",
-    "scan_date": "2024-11-15T10:23:45",
-    "total_endpoints": 124,
-    "total_findings": 23,
-    "security_score": 48,
+    "scan_date": "2025-01-15T10:14:22",
+    "total_endpoints": 178,
+    "total_findings": 21,
+    "security_score": 44,
     "security_grade": "D",
-    
-    "attack_surface_summary": {
-      "total_endpoints": 124,
-      "by_type": { "dynamic": 67, "api": 18, "auth": 8, "admin": 3, "static": 28 },
-      "endpoints_with_params": 45,
-      "total_forms": 12
+    "authentication": {
+      "auth_method": "form",
+      "success": true,
+      "session_cookies": ["sessionid", "csrftoken"],
+      "csrf_token_found": true
     },
-    
     "technology_fingerprint": {
-      "server": "Apache/2.4.51",
-      "cms": "WordPress",
+      "server": "nginx/1.24.0",
+      "cms": "WordPress 6.4",
       "frameworks": ["React", "jQuery"],
-      "languages": ["PHP", "JavaScript"]
+      "languages": ["PHP", "JavaScript"],
+      "waf": "Cloudflare"
     },
-    
     "risk_distribution": {
-      "critical": 2, "high": 5, "medium": 9, "low": 7, "info": 0
+      "critical": 3,
+      "high": 7,
+      "medium": 8,
+      "low": 3,
+      "info": 0
     },
-    
     "vulnerabilities": [
       {
         "type": "SQLInjection",
         "severity": "critical",
         "title": "SQL Injection in parameter 'id'",
-        "url": "https://example.com/post?id=1",
+        "url": "https://target.com/post?id=1",
         "parameter": "id",
-        "description": "SQL injection via GET parameter...",
-        "evidence": "Error: you have an error in your sql syntax",
-        "confidence": 90,
-        "confidence_label": "Confirmed",
+        "evidence": "MySQL syntax error detected in response body",
+        "confidence": 92,
         "cwe": "CWE-89",
         "cvss": 9.8,
-        "exploitability": "Probable",
-        "remediation": "Use parameterized queries..."
+        "remediation": "Use parameterized queries or prepared statements"
       }
     ]
   }
 }
 ```
 
-> JSON report automation ke liye use kar sakte ho — CI/CD pipeline mein integrate karo ya apne dashboard mein import karo.
-
----
-
 ### PDF Report Sections
 
-PDF report professionally formatted hoti hai jisme yeh sections hote hain:
+The generated PDF report includes:
 
-1. **Cover Page** — Target, score, grade, finding counts
-2. **Executive Summary** — Non-technical overview for management
-3. **Attack Surface Overview** — Endpoint types, parameters, forms
-4. **Risk Distribution** — Pie chart + severity table
-5. **Technology Fingerprint** — Detected tech stack
-6. **Detailed Findings** — Har vulnerability ki full details
-7. **Risk Matrix** — Sab findings ek table mein priority ke saath
-8. **Remediation Guidance** — Har vulnerability type ke liye fix kaise karein
+1. **Cover Page** — Target, scan profile, security score, and grade
+2. **Executive Summary** — Non-technical overview for stakeholders
+3. **Attack Surface Overview** — Endpoint type distribution table
+4. **Risk Distribution** — Pie chart and severity breakdown
+5. **Technology Fingerprint** — Full detected stack
+6. **Detailed Findings** — Per-vulnerability evidence and context
+7. **Risk Matrix** — All findings prioritized by severity and confidence
+8. **Remediation Guidance** — OWASP-aligned fix recommendations per vulnerability type
 
----
-
-## 🔍 Vulnerability Coverage
-
-### Complete Module List (35+ Checks)
-
-#### 💉 Injection Attacks
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| SQL Injection | CWE-89 | Critical | URL params + form fields mein SQLi test |
-| NoSQL Injection | CWE-943 | High | MongoDB/CouchDB operators test |
-| Command Injection | CWE-78 | Critical | OS command injection patterns |
-| LDAP Injection | CWE-90 | High | LDAP query manipulation |
-| XML/XXE Injection | CWE-611 | Critical | External entity injection |
-
-#### 🌐 Cross-Site Attacks
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| Reflected XSS | CWE-79 | High | URL params mein XSS reflection |
-| Stored XSS | CWE-79 | Critical | Form submit ke baad persistent XSS |
-| DOM-Based XSS | CWE-79 | Medium | Client-side DOM manipulation |
-| CSRF | CWE-352 | Medium | Missing CSRF token detection |
-
-#### 🔐 Access Control
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| IDOR | CWE-639 | High | Object ID manipulation test |
-| Broken Auth | CWE-523 | High | HTTP login, autocomplete issues |
-| Session Hijacking | CWE-598 | High | Session ID in URL detection |
-| Session Fixation | CWE-384 | Medium | Cookie security flags |
-| Broken Access Control | CWE-284 | High | Sensitive admin paths access |
-| Privilege Escalation | CWE-269 | High | Mass assignment via forms |
-
-#### 🌍 Network & Protocol
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| SSRF | CWE-918 | Critical | Server-side request forgery |
-| Open Redirect | CWE-601 | Medium | URL redirect manipulation |
-| CORS Misconfiguration | CWE-942 | High | Wildcard origin, credential issues |
-| Host Header Injection | CWE-113 | High | Host header reflection |
-| Cache Poisoning | CWE-444 | High | Response cache manipulation |
-| Clickjacking | CWE-1021 | Medium | Missing frame protection |
-| HTTP Response Splitting | CWE-113 | Medium | Header injection via newlines |
-
-#### 📁 File & Path
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| LFI (Local File Inclusion) | CWE-22 | Critical | ../etc/passwd patterns |
-| RFI (Remote File Inclusion) | CWE-98 | Critical | Remote file execute via include |
-| Path Traversal | CWE-22 | Critical | Directory traversal sequences |
-| File Upload | CWE-434 | Medium | Unrestricted file upload detection |
-| Directory Listing | CWE-548 | Medium | Open directory exposure |
-
-#### 🔎 Information Disclosure
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| Sensitive File Exposure | CWE-538 | Critical | .env, .git/config, wp-config.php |
-| Server Info Disclosure | CWE-200 | Low | Version headers in responses |
-| Hardcoded Credentials | CWE-798 | Critical | Passwords/keys in source code |
-| Stack Trace Disclosure | CWE-200 | Medium | Error messages with internals |
-
-#### 🔧 Security Configuration
-| Module | CWE | Severity | Description |
-|--------|-----|----------|-------------|
-| Missing Security Headers | CWE-693 | Medium | HSTS, CSP, X-Frame-Options, etc. |
-| Weak Cryptography | CWE-327 | Medium | MD5, SHA-1, HTTP usage |
-| API Misconfiguration | CWE-200 | Medium | Debug endpoints, Swagger exposure |
-| Rate Limiting Missing | CWE-307 | Medium | Brute-force vulnerable endpoints |
-| Subdomain Takeover | CWE-285 | Critical | Unclaimed cloud service detection |
-| Insecure Deserialization | CWE-502 | High | Serialization patterns |
-
----
-
-## 🔄 Scan Stages Explained
-
-Scan run karne par yeh 7 stages hote hain:
-
-### Stage 1: Initializing Engines
-- Request engine setup (session, headers, cookies)
-- Rate limiter configure
-- Diff engine initialize
-
-### Stage 2: Technology Fingerprinting
-- Server header analyze (`Apache/2.4`, `Nginx/1.21`, etc.)
-- CMS detect (WordPress, Drupal, Joomla, Shopify)
-- Frameworks detect (React, Vue, Django, Laravel)
-- WAF detect (Cloudflare, ModSecurity, Akamai)
-- Language detect (PHP, Python, Java, Ruby)
-
-### Stage 3: Web Crawling
-- robots.txt parse → disallowed paths discover
-- sitemap.xml parse → all listed URLs queue mein
-- BFS (Breadth-First Search) se pages visit
-- Har page se: links extract, forms detect, params map
-
-### Stage 4: Endpoint Classification
-- Har endpoint ka type assign: `static`, `dynamic`, `api`, `auth`, `admin`
-- Priority assign: `admin` (10) > `auth` (9) > `api` (8) > `dynamic` (6)
-- Relevant modules decide: dynamic params wale endpoints ko injection test
-
-### Stage 5: Vulnerability Scanning
-- Priority order mein endpoints scan
-- Har endpoint par relevant modules run
-- Real-time progress bar show
-- Findings collect
-
-### Stage 6: Risk Scoring
-- Har finding ka confidence-weighted score
-- Critical findings = zyada deductions
-- Final score: `100 - total_deductions`
-- Grade assign: 90+=A, 75-89=B, 60-74=C, 40-59=D, 0-39=F
-
-### Stage 7: Report Generation
-- JSON report save
-- PDF render (cover, charts, findings, remediation)
-- Output folder mein copy
-
----
-
-## 📁 Project Structure
+### Report File Location
 
 ```
-websentinel_framework/
-│
-├── main.py                     # 🎯 Entry point — scan orchestration
-├── config.py                   # ⚙️  All config, payloads, thresholds
-├── requirements.txt            # 📦 Python dependencies
-├── LICENSE                     # 📜 MIT License
-├── README.md                   # 📖 This file
-│
-├── core/                       # 🔧 Core engines
-│   ├── __init__.py
-│   ├── crawler.py              # Spider — BFS web crawling + form detection
-│   ├── request_engine.py       # HTTP engine — throttling, retries, sessions, cookie injection
-│   ├── auth_handler.py         # ⭐ NEW — Form login, cookie session, CSRF capture, verification
-│   ├── response_analyzer.py    # Response analysis — headers, cookies, patterns
-│   ├── diff_engine.py          # Baseline vs probe comparison
-│   └── scorer.py               # Risk scoring + grade calculation
-│
-├── modules/                    # 🔍 Vulnerability scanner modules
-│   ├── __init__.py
-│   ├── base_module.py          # Abstract base class for all modules
-│   ├── injection_modules.py    # SQL, NoSQL, Cmd, LDAP, XML injection
-│   ├── xss_modules.py          # Reflected, Stored, DOM XSS + CSRF
-│   ├── access_modules.py       # IDOR, BrokenAuth, Session, BAC
-│   ├── network_modules.py      # SSRF, OpenRedirect, CORS, Headers
-│   ├── file_modules.py         # LFI, RFI, PathTraversal, Upload, Disclosure
-│   └── misc_modules.py         # API, MassAssign, Crypto, Takeover, Cache
-│
-├── intelligence/               # 🧠 Analysis & classification
-│   ├── __init__.py
-│   ├── fingerprint.py          # Tech stack detection engine
-│   ├── endpoint_classifier.py  # Endpoint type + module recommender
-│   └── risk_matrix.py          # Risk matrix + remediation database
-│
-├── reports/                    # 📊 Report generators
-│   ├── __init__.py
-│   ├── json_report.py          # JSON structured report
-│   └── pdf_report.py           # PDF report (ReportLab dark theme)
-│
-└── utils/                      # 🛠️  Utility functions
-    ├── __init__.py
-    ├── logger.py               # Colored terminal logger + ASCII banner
-    └── helpers.py              # URL normalization, dedup, rate limiter
+websentinel_output/
+├── websentinel_report.json
+└── websentinel_report.pdf
 ```
 
 ---
 
-## ⚙️ Configuration Guide
+## Security Disclaimer
 
-`config.py` file mein sab kuch configure kar sakte ho:
+> **WebSentinel is intended exclusively for authorized security testing.**
 
-### Rate Limiting Adjust karo
-```python
-# config.py mein change karo:
-DEFAULT_DELAY = 1.0           # Seconds between requests
-MAX_REQUESTS_PER_SECOND = 3   # Max RPS (command line se override hoga)
-DEFAULT_TIMEOUT = 15          # Request timeout in seconds
-```
+Before running WebSentinel against any target, you must have one of the following:
 
-### Custom Payloads Add karo
-```python
-# SQL injection ke naye payloads add karo
-SQLI_PAYLOADS = [
-    "'",
-    "' OR '1'='1",
-    "' AND SLEEP(0)--",
-    # Apna custom payload yahan add karo:
-    "' OR SLEEP(0)--",
-    "1 AND 1=1",
-]
-```
+- Ownership of the target system
+- Explicit written authorization from the system owner
+- A signed scope document from a client engagement
+- Written acceptance from a bug bounty program covering the target
 
-### Sensitive Files List Extend karo
-```python
-SENSITIVE_FILES = [
-    "/.git/config",
-    "/.env",
-    "/wp-config.php",
-    # Apni custom files add karo:
-    "/application.properties",
-    "/appsettings.json",
-    "/.npmrc",
-]
-```
+**Unauthorized scanning is illegal** and may violate:
 
-### Output Directory Change karo
-```python
-OUTPUT_DIR = "my_security_reports"    # Default output folder
-JSON_REPORT_NAME = "scan_results.json"
-PDF_REPORT_NAME = "security_report.pdf"
-```
+- Information Technology Act, 2000 — India (Section 43, 66)
+- Computer Fraud and Abuse Act (CFAA) — United States
+- Computer Misuse Act — United Kingdom
+- EU Directive on Attacks Against Information Systems
+
+WebSentinel is a **non-destructive** tool. It does not modify, delete, or exfiltrate data. All requests are read-only observations of application behavior.
+
+The authors of WebSentinel accept no liability for misuse of this software.
 
 ---
 
-## 🔧 Troubleshooting
+## Roadmap
 
-### Problem 1: `ModuleNotFoundError`
-```bash
-# Solution: Dependencies reinstall karo
-pip install -r requirements.txt --upgrade
-
-# Ya specific module:
-pip install requests beautifulsoup4 colorama reportlab lxml
-```
-
-### Problem 2: SSL Certificate Errors
-```bash
-# Tool SSL warnings automatically suppress karta hai
-# Agar phir bhi issue aaye:
-pip install certifi --upgrade
-```
-
-### Problem 3: Target Unreachable / Connection Error
-```bash
-# Check karo website accessible hai
-curl -I https://your-target.com
-
-# Timeout increase karo
-python3 main.py -u https://example.com -p passive --timeout 30
-```
-
-### Problem 4: PDF Generate Nahi Ho Raha
-```bash
-# ReportLab reinstall karo
-pip install reportlab --upgrade
-
-# Ya PDF skip karo, sirf JSON lao
-python3 main.py -u https://example.com -p balanced --json-only
-```
-
-### Problem 5: WAF Block Kar Raha Hai (429/403 responses)
-```bash
-# Rate limit bahut kam karo
-python3 main.py -u https://example.com -p passive --rps 0.25 --delay 5
-
-# Passive profile use karo
-python3 main.py -u https://example.com -p passive
-```
-
-### Problem 6: Bahut Slow Scan
-```bash
-# Depth kam karo
-python3 main.py -u https://example.com -p balanced -d 2
-
-# Deep-safe profile ki jagah balanced use karo
-python3 main.py -u https://example.com -p balanced
-```
-
-### Problem 7: `Permission denied`
-```bash
-# Linux mein execute permission do
-chmod +x main.py
-
-# Ya directly python se run karo
-python3 main.py -u https://example.com -p passive
-```
+| Status | Feature |
+|---|---|
+| ✅ Done | 35+ vulnerability scanning modules |
+| ✅ Done | Form-based authentication with CSRF capture |
+| ✅ Done | Session cookie injection without mandatory token |
+| ✅ Done | JSON and PDF dual reporting |
+| ✅ Done | Technology fingerprinting (server, CMS, WAF, framework) |
+| ✅ Done | Confidence-weighted risk scoring (0–100) |
+| 🔄 In Progress | GraphQL introspection and injection testing |
+| 🔄 In Progress | WebSocket endpoint scanning |
+| 📋 Planned | Headless browser mode (Playwright) for JavaScript-heavy SPAs |
+| 📋 Planned | CI/CD integration plugin (GitHub Actions, GitLab CI) |
+| 📋 Planned | Multi-threaded parallel scanning engine |
+| 📋 Planned | Custom payload injection from external file |
+| 📋 Planned | Continuous monitoring mode with delta reports |
+| 📋 Planned | HTML report format |
+| 📋 Planned | Plugin/extension system for custom modules |
+| 📋 Planned | Automatic login detection (no manual --login required) |
 
 ---
 
-## 💼 Use Cases
+## Contributing
 
-### Use Case 1: Freelance Web Developer
-Apne client ko deliver karne se pehle website ki security check karo:
+Contributions are welcome. Please follow the guidelines below.
+
+### Getting Started
+
 ```bash
-python3 main.py -u https://client-website.com -p balanced
-# PDF report client ko forward karo as proof of security testing
+git clone https://github.com/monxcode/websentinel.git
+cd websentinel
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### Use Case 2: Bug Bounty Hunter
-HackerOne / Bugcrowd program mein participate karo:
-```bash
-# Recon phase
-python3 main.py -u https://target.com -p passive --output-dir ./recon
+### Adding a Vulnerability Module
 
-# Active scan (sirf in-scope)
-python3 main.py -u https://api.target.com -p balanced --output-dir ./active
+1. Create a class that inherits from `BaseModule` in the appropriate `modules/*.py` file
+2. Implement the `run(endpoint)` method returning `List[Finding]`
+3. Use `self._should_inject()` to respect the active scan profile
+4. Register the module in `get_scan_modules()` inside `main.py`
+5. Add remediation guidance to `REMEDIATION_DB` in `intelligence/risk_matrix.py`
 
-# JSON se findings extract karo
-cat websentinel_output/websentinel_report.json | python3 -c "
-import json, sys
-data = json.load(sys.stdin)
-for v in data['websentinel_report']['vulnerabilities']:
-    if v['severity'] in ('critical', 'high'):
-        print(f\"{v['severity'].upper()}: {v['title']} — {v['url']}\")
-"
-```
+### Pull Request Guidelines
 
-### Use Case 3: Startup CTO / Security-Conscious Developer
-Monthly security audit automate karo:
-```bash
-#!/bin/bash
-# monthly_scan.sh
-DATE=$(date +%Y%m%d)
-python3 /path/to/main.py \
-  -u https://myapp.com \
-  -p balanced \
-  --output-dir ./security_audits/$DATE \
-  --json-only
+- One feature or fix per pull request
+- Follow existing code style and naming conventions
+- Test against a local vulnerable application (DVWA, WebGoat, or Juice Shop)
+- Update this README if new flags or modules are added
 
-echo "Scan complete: ./security_audits/$DATE"
-```
+### Reporting Bugs
 
-### Use Case 4: Penetration Tester (Professional)
-Client pentest ke liye:
-```bash
-# Phase 1: Passive recon
-python3 main.py -u https://client.com -p passive --output-dir ./phase1_recon
+Open an issue with the following information:
 
-# Phase 2: Authenticated scan
-python3 main.py -u https://client.com -p deep-safe \
-  --cookies "session=clientcookie; role=admin" \
-  --output-dir ./phase2_auth_scan
-
-# Phase 3: API specific
-python3 main.py -u https://api.client.com -p deep-safe \
-  --output-dir ./phase3_api
-
-# Professional PDF report client ko deliver karo
-```
-
-### Use Case 5: Security Researcher / Student
-CTF aur learning ke liye:
-```bash
-# Local lab environment (DVWA, WebGoat, etc.)
-python3 main.py -u http://localhost/dvwa -p deep-safe \
-  --cookies "PHPSESSID=abc; security=low" \
-  --no-robots
-
-# VulnHub / HackTheBox machine
-python3 main.py -u http://10.10.10.50 -p deep-safe --no-robots
-```
-
-### Use Case 6: DevSecOps / CI-CD Integration
-GitHub Actions ya Jenkins mein integrate karo:
-```yaml
-# .github/workflows/security-scan.yml
-- name: WebSentinel Security Scan
-  run: |
-    pip install -r requirements.txt
-    echo "yes" | python3 main.py \
-      -u https://staging.myapp.com \
-      -p balanced \
-      --json-only \
-      --rps 2
-    
-- name: Check for Critical Findings
-  run: |
-    python3 -c "
-    import json, sys
-    with open('websentinel_output/websentinel_report.json') as f:
-        data = json.load(f)
-    criticals = data['websentinel_report']['risk_distribution']['critical']
-    if criticals > 0:
-        print(f'FAIL: {criticals} critical vulnerabilities found!')
-        sys.exit(1)
-    print('PASS: No critical vulnerabilities')
-    "
-```
+- Python version and OS
+- Command used
+- Target type (local lab, staging, etc.)
+- Full terminal output with `-v` flag enabled
 
 ---
 
-## ❓ FAQ
+## License
 
-**Q: Kya `--cookies` ke liye CSRF token zaroori hai?**
-> A: Nahi. `--cookies "session=abc123"` sirf session cookie se kaam karta hai — koi additional token required nahi. WebSentinel ne is issue ko v1.1.0 mein fix kar diya.
-
-**Q: `--login` flag kaise kaam karta hai internally?**
-> A: WebSentinel GET request karta hai login page par → HTML form parse karta hai → username/password fields auto-detect karta hai → CSRF token extract karta hai (agar hai) → POST request submit karta hai → redirect analyze karta hai → session cookies capture karta hai.
-
-**Q: Login successful hua ya nahi, kaise pata chalega?**
-> A: Terminal mein `[SUCCESS] ✔ Login successful!` dikhega. Agar nahi hua toh `[WARNING] Login may have failed` dikhega with reason. `--auth-verify` flag se extra confirmation milta hai.
-
-**Q: Kya `--login` aur `--cookies` dono saath use kar sakte hain?**
-> A: Haan! Login ke baad extra cookies inject karne ke liye dono combine karo. Example: `--login "user=x&pass=y" --cookies "remember_me=1"`
-
-**Q: Login ke baad kaunsa URL scan hoga?**
-> A: Default mein login URL ka base domain scan hoga (e.g., login URL `https://example.com/login` hai toh `https://example.com` scan hoga). `--scan-url` flag se custom URL specify kar sakte ho.
-
-**Q: Kya yeh tool kisi bhi website pe use kar sakte hain?**
-> A: Nahi. Sirf wahi websites jo aapki hain ya jahan aapko written permission mili ho. Unauthorized scanning illegal hai.
-
-**Q: Kya yeh tool koi data delete karta hai?**
-> A: Nahi. WebSentinel strictly non-destructive hai — sirf requests bhejta hai aur responses analyze karta hai. Koi data modify ya delete nahi hota.
-
-**Q: WAF (Firewall) block kar raha hai, kya karein?**
-> A: Passive profile use karo, RPS 0.5 se kam rakho, delay badha do. WAF bypass is tool ka scope nahi hai.
-
-**Q: Kya yeh tool Burp Suite ki jagah use kar sakte hain?**
-> A: Ye complementary tools hain. WebSentinel automated reconnaissance ke liye best hai; Burp Suite manual deep testing ke liye. Dono saath use karein.
-
-**Q: Findings false positive toh nahi hain?**
-> A: Har finding ka confidence score (0-100%) hota hai. 70%+ findings generally accurate hain. Verify karna hamesha recommended hai.
-
-**Q: Python 2 mein kaam karega?**
-> A: Nahi. Python 3.8+ required hai.
-
-**Q: Kya yeh HTTPS ke saath kaam karta hai?**
-> A: Haan. SSL certificate verify karna off hai (self-signed certs ke liye) but HTTPS fully supported hai.
-
-**Q: Report kahan save hoti hai?**
-> A: Default: `./websentinel_output/` folder mein. `--output-dir` flag se change kar sakte ho.
-
----
-
-## 📦 Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `requests` | ≥2.31.0 | HTTP requests engine |
-| `beautifulsoup4` | ≥4.12.0 | HTML parsing for crawler |
-| `colorama` | ≥0.4.6 | Cross-platform colored terminal |
-| `reportlab` | ≥4.0.4 | Professional PDF generation |
-| `lxml` | ≥4.9.0 | Fast XML/HTML parser |
-| `urllib3` | ≥2.0.0 | HTTP connection pooling |
-
----
-
-## 📜 License
-
-MIT License — See [LICENSE](LICENSE) file for full text.
-
-**Short version**: Aap freely use, modify, distribute kar sakte ho — sirf copyright notice rakho aur authorized testing ke liye use karo.
-
----
-
-## ⚠️ Final Warning
+This project is licensed under the **MIT License**.
 
 ```
-╔══════════════════════════════════════════════════════════════╗
-║                    RESPONSIBLE USE ONLY                     ║
-║                                                              ║
-║  ✅ Apni website test karo                                  ║
-║  ✅ Bug bounty (in-scope) targets                            ║
-║  ✅ Written permission ke saath client systems               ║
-║  ✅ Local lab environments (DVWA, WebGoat, etc.)            ║
-║                                                              ║
-║  ❌ Kisi ki bhi website bina permission ke mat scan karo    ║
-║  ❌ Production systems par deep-safe profile se bachein     ║
-║  ❌ Malicious purpose ke liye use mat karo                  ║
-╚══════════════════════════════════════════════════════════════╝
+MIT License
+
+Copyright (c) 2025 Mohan Singh Parmar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ```
+
+See the full [LICENSE](LICENSE) file for details.
+
+---
+
+## Contact
+
+**Author:** Mohan Singh Parmar
+
+[![GitHub](https://img.shields.io/badge/GitHub-monxcode-181717?style=for-the-badge&logo=github)](https://github.com/monxcode)
+
+For security vulnerabilities in WebSentinel itself, please open a private GitHub issue rather than a public one.
 
 ---
 
 <div align="center">
 
-**⚡ WebSentinel Framework** — Built for ethical security professionals
+*Built for security professionals. Use responsibly.*
 
-*"Scan responsibly. Disclose responsibly. Fix responsibly."*
+**⚡ WebSentinel — Scan with purpose. Report with clarity. Fix with confidence.**
 
 </div>
