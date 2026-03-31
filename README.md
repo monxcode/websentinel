@@ -519,8 +519,8 @@ websentinel/
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         main.py                                  │
-│                    Scan Orchestrator                             │
+│                         main.py                                 │
+│                    Scan Orchestrator                            │
 └────────────────────────────┬────────────────────────────────────┘
                              │
           ┌──────────────────┼──────────────────┐
@@ -528,8 +528,8 @@ websentinel/
           ▼                  ▼                  ▼
   ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐
   │ AuthHandler  │  │  Fingerprint │  │  CrawlerEngine   │
-  │              │  │  Engine      │  │                  │
-  │ Form Login   │  │              │  │ BFS Crawler      │
+  │──────────────│  │  Engine      │  │──────────────────│
+  │ Form Login   │  │──────────────│  │ BFS Crawler      │
   │ Cookie Inject│  │ Server / CMS │  │ Sitemap Parser   │
   │ CSRF Capture │  │ Framework    │  │ Form Detector    │
   │ Verification │  │ WAF          │  │ Endpoint Map     │
@@ -539,7 +539,7 @@ websentinel/
   ┌──────────────┐                    ┌──────────────────┐
   │  Request     │◄───────────────────│ Endpoint         │
   │  Engine      │                    │ Classifier       │
-  │              │                    │                  │
+  │──────────────│                    │──────────────────│
   │ Rate Limiter │                    │ Type Detection   │
   │ Retry Logic  │                    │ Module Routing   │
   │ Session Mgmt │                    │ Priority Scoring │
@@ -548,9 +548,9 @@ websentinel/
          ▼
   ┌──────────────────────────────────────────────────────┐
   │                  Vulnerability Modules               │
-  │                                                      │
-  │  injection_modules   xss_modules   access_modules    │
-  │  network_modules     file_modules  misc_modules      │
+  │──────────────────────────────────────────────────────│
+  │  injection_modules |  xss_modules  | access_modules  │
+  │  network_modules   |  file_modules | misc_modules    │
   └──────────────────────────────┬───────────────────────┘
                                  │
                     ┌────────────┼────────────┐
@@ -558,8 +558,8 @@ websentinel/
                     ▼            ▼            ▼
              ┌──────────┐ ┌──────────┐ ┌──────────────┐
              │  Diff    │ │  Risk    │ │   Reports    │
-             │  Engine  │ │  Scorer  │ │              │
-             │          │ │          │ │ json_report  │
+             │  Engine  │ │  Scorer  │ │──────────────│
+             │──────────│ │──────────│ │ json_report  │
              │ Baseline │ │ 0–100    │ │ pdf_report   │
              │ Anomaly  │ │ Grade A–F│ │              │
              └──────────┘ └──────────┘ └──────────────┘
