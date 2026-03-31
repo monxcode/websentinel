@@ -29,6 +29,7 @@ from utils.logger import Logger
 from utils.helpers import elapsed_str, extract_base_url
 from core.request_engine import RequestEngine
 from core.auth_handler import AuthHandler, parse_cookie_string
+from core.payload_loader import PayloadLoader, validate_payload_file
 from core.crawler import CrawlerEngine
 from core.response_analyzer import ResponseAnalyzer
 from core.diff_engine import DiffEngine
@@ -42,27 +43,49 @@ from reports.pdf_report import PDFReporter
 # IMPORT ALL VULNERABILITY MODULES
 # ─────────────────────────────────────────────
 from modules.injection_modules import (
-    SQLInjectionModule, NoSQLInjectionModule,
-    CommandInjectionModule, LDAPInjectionModule, XMLInjectionModule,
+    SQLInjectionModule,
+    NoSQLInjectionModule,
+    CommandInjectionModule,
+    LDAPInjectionModule,
+    XMLInjectionModule,
 )
 from modules.xss_modules import (
-    XSSModule, StoredXSSModule, DOMXSSModule, CSRFModule,
+    XSSModule,
+    StoredXSSModule,
+    DOMXSSModule,
+    CSRFModule,
 )
 from modules.access_modules import (
-    IDORModule, BrokenAuthModule, SessionAnalysisModule, BrokenAccessControlModule,
+    IDORModule,
+    BrokenAuthModule,
+    SessionAnalysisModule,
+    BrokenAccessControlModule,
 )
 from modules.network_modules import (
-    SSRFModule, OpenRedirectModule, CORSModule, SecurityHeadersModule,
-    ClickjackingModule, DirectoryListingModule, HostHeaderInjectionModule,
+    SSRFModule,
+    OpenRedirectModule,
+    CORSModule,
+    SecurityHeadersModule,
+    ClickjackingModule,
+    DirectoryListingModule,
+    HostHeaderInjectionModule,
     RateLimitingModule,
 )
 from modules.file_modules import (
-    LFIModule, PathTraversalModule, RFIModule, FileUploadModule,
-    InfoDisclosureModule, SensitiveFileModule,
+    LFIModule,
+    PathTraversalModule,
+    RFIModule,
+    FileUploadModule,
+    InfoDisclosureModule,
+    SensitiveFileModule,
 )
 from modules.misc_modules import (
-    APIMisconfigModule, MassAssignmentModule, HardcodedCredentialsModule,
-    WeakCryptoModule, SubdomainTakeoverModule, CachePoisoningModule,
+    APIMisconfigModule,
+    MassAssignmentModule,
+    HardcodedCredentialsModule,
+    WeakCryptoModule,
+    SubdomainTakeoverModule,
+    CachePoisoningModule,
     InsecureDeserializationModule,
 )
 
@@ -70,6 +93,7 @@ from modules.misc_modules import (
 # ─────────────────────────────────────────────────────────────────────────────
 # ARGUMENT PARSER
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -117,11 +141,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
     # ── Target ──────────────────────────────────────────────────────────
     target_group = parser.add_argument_group("Target")
     target_group.add_argument(
-        "-u", "--url", required=True,
+        "-u",
+        "--url",
+        required=True,
         help="Target URL. When --login is used, this should be the login page URL.",
     )
     target_group.add_argument(
-        "--scan-url", default=None, metavar="URL",
+        "--scan-url",
+        default=None,
+        metavar="URL",
         help=(
             "URL to crawl/scan after login. If omitted, scan starts from the "
             "base domain of --url (or post-login redirect URL)."
@@ -131,78 +159,117 @@ def build_arg_parser() -> argparse.ArgumentParser:
     # ── Scan Profile ────────────────────────────────────────────────────
     scan_group = parser.add_argument_group("Scan Settings")
     scan_group.add_argument(
-        "-p", "--profile",
+        "-p",
+        "--profile",
         choices=["passive", "balanced", "deep-safe"],
         default="balanced",
         help="Scan profile: passive / balanced / deep-safe  (default: balanced)",
     )
     scan_group.add_argument(
-        "-d", "--depth", type=int, default=None,
+        "-d",
+        "--depth",
+        type=int,
+        default=None,
         help="Crawl depth — overrides profile default.",
     )
     scan_group.add_argument(
-        "--no-robots", action="store_true",
+        "--no-robots",
+        action="store_true",
         help="Ignore robots.txt disallow rules.",
+    )
+    scan_group.add_argument(
+        "--payloads",
+        default=None,
+        metavar="FILE",
+        help=(
+            "Path to a custom payload file (.txt / .json / .csv). "
+            "Payloads are merged with built-in lists before scanning begins. "
+            "Examples: --payloads payloads/sqli.txt  --payloads custom.json"
+        ),
+    )
+    scan_group.add_argument(
+        "--payloads-append",
+        action="store_true",
+        help=(
+            "Append custom payloads AFTER built-in payloads instead of "
+            "prepending them. Default: custom payloads are tested first."
+        ),
     )
 
     # ── Authentication ───────────────────────────────────────────────────
     auth_group = parser.add_argument_group("Authentication")
     auth_group.add_argument(
-        "--login", default="", metavar="CREDENTIALS",
+        "--login",
+        default="",
+        metavar="CREDENTIALS",
         help=(
             'Form-based login credentials. Format: "username=admin&password=secret"\n'
-            'WebSentinel auto-discovers the login form, injects CSRF tokens,\n'
-            'and captures the resulting session cookies.\n'
+            "WebSentinel auto-discovers the login form, injects CSRF tokens,\n"
+            "and captures the resulting session cookies.\n"
             'Example: --login "email=admin@example.com&password=Admin@123"'
         ),
     )
     auth_group.add_argument(
-        "--cookies", default="", metavar="COOKIE_STRING",
+        "--cookies",
+        default="",
+        metavar="COOKIE_STRING",
         help=(
-            'Pre-set session cookies. No token required.\n'
+            "Pre-set session cookies. No token required.\n"
             'Format: "name=value; name2=value2"\n'
-            'Examples:\n'
+            "Examples:\n"
             '  --cookies "session=abc123"\n'
             '  --cookies "PHPSESSID=abc; csrf_token=xyz"\n'
             '  --cookies "session=xyz456"   (works without any other token)'
         ),
     )
     auth_group.add_argument(
-        "--auth-verify", action="store_true",
+        "--auth-verify",
+        action="store_true",
         help="Verify session is authenticated before scanning starts.",
     )
 
     # ── Request Engine ───────────────────────────────────────────────────
     req_group = parser.add_argument_group("Request Engine")
     req_group.add_argument(
-        "--rps", type=float, default=None,
+        "--rps",
+        type=float,
+        default=None,
         help="Max requests per second  (overrides profile default).",
     )
     req_group.add_argument(
-        "--delay", type=float, default=None,
+        "--delay",
+        type=float,
+        default=None,
         help="Fixed delay in seconds between requests.",
     )
     req_group.add_argument(
-        "--timeout", type=int, default=config.DEFAULT_TIMEOUT,
+        "--timeout",
+        type=int,
+        default=config.DEFAULT_TIMEOUT,
         help=f"Request timeout in seconds  (default: {config.DEFAULT_TIMEOUT}).",
     )
 
     # ── Output ───────────────────────────────────────────────────────────
     out_group = parser.add_argument_group("Output")
     out_group.add_argument(
-        "--output-dir", default=config.OUTPUT_DIR,
+        "--output-dir",
+        default=config.OUTPUT_DIR,
         help=f"Directory for reports  (default: {config.OUTPUT_DIR}).",
     )
     out_group.add_argument(
-        "--json-only", action="store_true",
+        "--json-only",
+        action="store_true",
         help="Generate JSON report only — skip PDF.",
     )
     out_group.add_argument(
-        "--no-pdf", action="store_true",
+        "--no-pdf",
+        action="store_true",
         help="Skip PDF report generation.",
     )
     out_group.add_argument(
-        "-v", "--verbose", action="store_true",
+        "-v",
+        "--verbose",
+        action="store_true",
         help="Verbose / debug output.",
     )
 
@@ -213,14 +280,19 @@ def build_arg_parser() -> argparse.ArgumentParser:
 # HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def confirm_legal(logger: Logger, target: str) -> bool:
     """Show legal disclaimer and require explicit typed consent."""
     print(config.LEGAL_DISCLAIMER)
     print(f"  Target: {target}\n")
     try:
-        answer = input(
-            "  Do you have EXPLICIT authorization to scan this target? [yes/NO]: "
-        ).strip().lower()
+        answer = (
+            input(
+                "  Do you have EXPLICIT authorization to scan this target? [yes/NO]: "
+            )
+            .strip()
+            .lower()
+        )
         if answer not in ("yes", "y"):
             logger.error("Authorization not confirmed. Aborting.")
             return False
@@ -291,6 +363,7 @@ def get_scan_modules(engine, analyzer, diff, profile, logger):
 # MAIN
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = build_arg_parser()
     args = parser.parse_args()
@@ -312,7 +385,7 @@ def main():
     if args.rps is not None:
         profile_cfg["max_rps"] = args.rps
 
-    delay   = args.delay or profile_cfg["delay_range"][0]
+    delay = args.delay or profile_cfg["delay_range"][0]
     max_rps = profile_cfg["max_rps"]
 
     # Parse any pre-provided cookies (--cookies flag)
@@ -323,13 +396,17 @@ def main():
     logger.info(f"Crawl Depth  : {profile_cfg['max_depth']}")
     logger.info(f"Rate Limit   : {max_rps} req/s  |  Delay: {delay:.1f}s")
     if preset_cookies:
-        logger.info(f"Preset Cookies: {len(preset_cookies)} → {list(preset_cookies.keys())}")
+        logger.info(
+            f"Preset Cookies: {len(preset_cookies)} → {list(preset_cookies.keys())}"
+        )
     if args.login:
         logger.info(f"Auth Mode    : Form-based login (auto-discover form)")
     elif preset_cookies:
         logger.info(f"Auth Mode    : Cookie session (no token required)")
     else:
         logger.info(f"Auth Mode    : Unauthenticated")
+    if args.payloads:
+        logger.info(f"Custom Payloads: {pathlib.Path(args.payloads).name}")
     logger.separator()
 
     # ─────────────────────────────────────────────────────────────────────
@@ -341,13 +418,41 @@ def main():
         delay=delay,
         max_rps=max_rps,
         timeout=args.timeout,
-        cookies=preset_cookies,   # cookie-only session — no token required
+        cookies=preset_cookies,  # cookie-only session — no token required
         random_delay=True,
         delay_range=profile_cfg["delay_range"],
     )
-    analyzer   = ResponseAnalyzer()
+    analyzer = ResponseAnalyzer()
     diff_engine = DiffEngine()
-    fp_engine  = FingerprintEngine()
+    fp_engine = FingerprintEngine()
+
+    # ─────────────────────────────────────────────────────────────────────
+    # STAGE 1.5: Custom Payload Injection
+    # ─────────────────────────────────────────────────────────────────────
+    if args.payloads:
+        logger.stage("Loading Custom Payloads")
+        ok, msg = validate_payload_file(args.payloads)
+        if not ok:
+            logger.error(f"Payload file error: {msg}")
+            sys.exit(3)
+        try:
+            payload_loader = PayloadLoader(config, logger=logger)
+            payload_result = payload_loader.load_and_inject(
+                args.payloads,
+                prepend=not args.payloads_append,
+            )
+            logger.success(payload_result.summary())
+            if payload_result.warnings:
+                for w in payload_result.warnings:
+                    logger.warning(f"  {w}")
+            logger.info(
+                f"Injection mode : "
+                f"{'prepend (custom first)' if not args.payloads_append else 'append (built-in first)'}"
+            )
+        except (FileNotFoundError, ValueError) as e:
+            logger.error(f"Failed to load payload file: {e}")
+            sys.exit(3)
+        logger.separator()
 
     auth_result = None
     scan_start_url = args.url
@@ -423,8 +528,10 @@ def main():
     # Log active session summary
     active_cookies = engine.get_active_cookies()
     if active_cookies:
-        logger.info(f"Active session cookies ({len(active_cookies)}): "
-                    f"{list(active_cookies.keys())}")
+        logger.info(
+            f"Active session cookies ({len(active_cookies)}): "
+            f"{list(active_cookies.keys())}"
+        )
     logger.separator()
 
     # ─────────────────────────────────────────────────────────────────────
@@ -448,9 +555,11 @@ def main():
     fp_dict = fingerprint.to_dict()
     logger.success(f"Server      : {fp_dict.get('server') or 'Unknown'}")
     logger.success(f"CMS         : {fp_dict.get('cms') or 'Not detected'}")
-    logger.success(f"Frameworks  : {', '.join(fp_dict.get('frameworks', [])) or 'None'}")
+    logger.success(
+        f"Frameworks  : {', '.join(fp_dict.get('frameworks', [])) or 'None'}"
+    )
     logger.success(f"Languages   : {', '.join(fp_dict.get('languages', [])) or 'None'}")
-    logger.info   (f"WAF         : {waf or 'Not detected'}")
+    logger.info(f"WAF         : {waf or 'Not detected'}")
 
     # ─────────────────────────────────────────────────────────────────────
     # STAGE 4: Web Crawling
@@ -468,20 +577,22 @@ def main():
     crawler_stats = crawler.get_stats()
 
     logger.success(f"Endpoints discovered : {crawler_stats['total_endpoints']}")
-    logger.info   (f"With parameters      : {crawler_stats['endpoints_with_params']}")
-    logger.info   (f"With forms           : {crawler_stats['endpoints_with_forms']}")
+    logger.info(f"With parameters      : {crawler_stats['endpoints_with_params']}")
+    logger.info(f"With forms           : {crawler_stats['endpoints_with_forms']}")
 
     # ─────────────────────────────────────────────────────────────────────
     # STAGE 5: Endpoint Classification
     # ─────────────────────────────────────────────────────────────────────
     logger.stage("Endpoint Classification & Prioritization")
 
-    classifier     = EndpointClassifier()
-    classified     = classifier.classify_all(endpoints)
+    classifier = EndpointClassifier()
+    classified = classifier.classify_all(endpoints)
     attack_surface = classifier.get_attack_surface_summary(endpoints)
 
     type_summary = attack_surface.get("by_type", {})
-    for ep_type, count in sorted(type_summary.items(), key=lambda x: x[1], reverse=True):
+    for ep_type, count in sorted(
+        type_summary.items(), key=lambda x: x[1], reverse=True
+    ):
         logger.info(f"  {ep_type:<12}: {count}")
 
     # ─────────────────────────────────────────────────────────────────────
@@ -494,7 +605,7 @@ def main():
     total_endpoints = len(classified)
 
     for ep_idx, ep_info in enumerate(classified, 1):
-        endpoint    = ep_info["endpoint"]
+        endpoint = ep_info["endpoint"]
         rec_modules = ep_info["modules"]
         logger.progress(ep_idx, total_endpoints, f"→ {endpoint.url[:55]}")
 
@@ -522,14 +633,14 @@ def main():
     # ─────────────────────────────────────────────────────────────────────
     logger.stage("Risk Scoring & Grade Calculation")
 
-    scorer    = ScoringEngine(unique_findings)
-    score     = scorer.calculate_score()
-    grade     = scorer.get_grade(score)
+    scorer = ScoringEngine(unique_findings)
+    score = scorer.calculate_score()
+    grade = scorer.get_grade(score)
     risk_dist = scorer.risk_distribution()
 
     logger.success(f"Security Score  : {score}/100")
     logger.success(f"Security Grade  : {grade}")
-    logger.info   (f"Findings Total  : {len(unique_findings)}")
+    logger.info(f"Findings Total  : {len(unique_findings)}")
     for sev, cnt in risk_dist.items():
         if cnt > 0:
             logger.info(f"  {sev:<10}: {cnt}")
@@ -542,9 +653,15 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
 
     # Build auth summary for reports
-    auth_summary = auth_result.to_dict() if auth_result else {
-        "success": False, "auth_method": "none", "session_cookies": [],
-    }
+    auth_summary = (
+        auth_result.to_dict()
+        if auth_result
+        else {
+            "success": False,
+            "auth_method": "none",
+            "session_cookies": [],
+        }
+    )
 
     # JSON Report
     json_path = os.path.join(args.output_dir, config.JSON_REPORT_NAME)
@@ -584,18 +701,30 @@ def main():
     elapsed = time.time() - start_time
 
     from colorama import Fore, Style
+
     grade_colors = {
-        "A": Fore.GREEN, "B": Fore.GREEN,
-        "C": Fore.YELLOW, "D": Fore.YELLOW, "F": Fore.RED,
+        "A": Fore.GREEN,
+        "B": Fore.GREEN,
+        "C": Fore.YELLOW,
+        "D": Fore.YELLOW,
+        "F": Fore.RED,
     }
     gc = grade_colors.get(grade, Fore.WHITE)
 
-    auth_mode = "Form Login" if args.login else ("Cookie Session" if preset_cookies else "None")
+    auth_mode = (
+        "Form Login" if args.login else ("Cookie Session" if preset_cookies else "None")
+    )
+    payload_info = (
+        f"Yes — {pathlib.Path(args.payloads).name}"
+        if args.payloads
+        else "No (built-in only)"
+    )
 
     summary_lines = [
         f"Target          : {scan_start_url}",
         f"Profile         : {args.profile}",
         f"Auth Mode       : {auth_mode}",
+        f"Custom Payloads : {payload_info}",
         f"Session Cookies : {len(engine.get_active_cookies())}",
         f"Scan Duration   : {elapsed_str(elapsed)}",
         f"Requests Made   : {engine.request_count}",

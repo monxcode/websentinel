@@ -320,6 +320,8 @@ python main.py -u https://target.com -p balanced --no-robots
 | `-p`, `--profile` | `balanced` | Scan profile: `passive`, `balanced`, or `deep-safe` |
 | `-d`, `--depth` | Profile default | Crawl depth override |
 | `--no-robots` | `False` | Ignore robots.txt disallow rules |
+| `--payloads` | — | Path to custom payload file (`.txt` / `.json` / `.csv`) |
+| `--payloads-append` | `False` | Append custom payloads after built-in payloads (default: prepend) |
 
 **Authentication**
 
@@ -348,6 +350,123 @@ python main.py -u https://target.com -p balanced --no-robots
 
 ---
 
+
+---
+
+## Custom Payload Injection
+
+WebSentinel supports loading external payload files that are merged into the active scan at runtime. All vulnerability modules pick up the expanded payload lists automatically — no module-level changes are required.
+
+### Usage
+
+```bash
+python main.py -u https://target.com -p balanced --payloads payloads/custom_payloads.txt
+```
+
+```bash
+python main.py -u https://target.com -p balanced --payloads custom.json
+```
+
+```bash
+python main.py -u https://target.com -p balanced --payloads custom.csv --payloads-append
+```
+
+By default, custom payloads are **prepended** (tested first). Use `--payloads-append` to place them after the built-in payloads.
+
+### Supported File Formats
+
+#### TXT — One Payload Per Line with Section Headers
+
+```
+# Lines starting with # are comments
+
+[sqli]
+' OR '1'='1' --
+1' AND SLEEP(3)--
+
+[xss]
+<img src=x onerror="alert(document.domain)">
+<svg/onload=alert`1`>
+
+[cmd]
+; whoami
+$(id)
+
+[custom]
+MY_UNIVERSAL_PAYLOAD
+```
+
+Section headers like `[sqli]`, `[xss]`, `[cmd]`, `[lfi]`, `[ssrf]`, `[nosql]`, `[open_redirect]` switch the active category. The `[custom]` section injects payloads into **all** categories simultaneously.
+
+If no section headers are present, the category is inferred from the filename (e.g., `sqli_payloads.txt` → sqli).
+
+#### JSON — Object with Category Keys
+
+```json
+{
+  "sqli": [
+    "' OR '1'='1' --",
+    "1' AND SLEEP(3)--"
+  ],
+  "xss": [
+    "<img src=x onerror=\"alert(document.domain)\">",
+    "<svg/onload=alert`1`>"
+  ],
+  "cmd": [
+    "; whoami",
+    "$(id)"
+  ]
+}
+```
+
+A flat JSON array is also accepted and treated as the `custom` category (injected into all modules).
+
+#### CSV — Two-Column Format
+
+```
+category,payload
+sqli,' OR '1'='1' --
+sqli,1' AND SLEEP(3)--
+xss,<img src=x onerror="alert(document.domain)">
+cmd,; whoami
+lfi,../../../../etc/passwd
+```
+
+### Supported Category Names
+
+| Category | Accepted Aliases |
+|---|---|
+| `sqli` | `sql`, `sql_injection`, `sqlinject` |
+| `xss` | `cross_site_scripting` |
+| `cmd` | `command`, `cmdinject`, `rce`, `command_injection` |
+| `lfi` | `local_file_inclusion`, `path_traversal`, `traversal` |
+| `ssrf` | `server_side_request_forgery` |
+| `nosql` | `nosqli`, `nosql_injection`, `mongodb` |
+| `open_redirect` | `redirect`, `openredirect` |
+| `custom` | `generic`, `all` — injected into every category |
+
+### Loader Behaviour
+
+| Behaviour | Detail |
+|---|---|
+| **Deduplication** | Payloads already present in the built-in list are silently skipped |
+| **Cap** | Maximum 500 payloads per category — excess entries are dropped with a warning |
+| **File size limit** | 5 MB maximum per payload file |
+| **Comments** | Lines starting with `#` or `//` are ignored in TXT format |
+| **Blank lines** | Silently ignored in all formats |
+| **Unknown categories** | Warned and skipped — scan continues |
+
+### Example Payload Files
+
+Three ready-to-use example files are included in the `payloads/` directory:
+
+```
+payloads/
+├── custom_payloads.txt    Multi-category TXT with section headers
+├── custom_payloads.json   Full JSON format with all categories
+└── custom_payloads.csv    Two-column CSV format
+```
+
 ## Project Structure
 
 ```
@@ -357,6 +476,11 @@ websentinel/
 ├── config.py                        Payloads, signatures, thresholds, profiles
 ├── requirements.txt                 Python dependencies
 ├── LICENSE
+│
+├── payloads/
+│   ├── custom_payloads.txt          Example TXT payload file with section headers
+│   ├── custom_payloads.json         Example JSON payload file
+│   └── custom_payloads.csv          Example CSV payload file
 │
 ├── core/
 │   ├── auth_handler.py              Form login, cookie injection, session verification
@@ -395,8 +519,8 @@ websentinel/
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         main.py                                 │
-│                    Scan Orchestrator                            │
+│                         main.py                                  │
+│                    Scan Orchestrator                             │
 └────────────────────────────┬────────────────────────────────────┘
                              │
           ┌──────────────────┼──────────────────┐
@@ -627,7 +751,7 @@ The authors of WebSentinel accept no liability for misuse of this software.
 | 📋 Planned | Headless browser mode (Playwright) for JavaScript-heavy SPAs |
 | 📋 Planned | CI/CD integration plugin (GitHub Actions, GitLab CI) |
 | 📋 Planned | Multi-threaded parallel scanning engine |
-| 📋 Planned | Custom payload injection from external file |
+| ✅ Done | Custom payload injection from external file (.txt / .json / .csv) |
 | 📋 Planned | Continuous monitoring mode with delta reports |
 | 📋 Planned | HTML report format |
 | 📋 Planned | Plugin/extension system for custom modules |
@@ -675,6 +799,33 @@ Open an issue with the following information:
 
 ---
 
+## License
+
+This project is licensed under the **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 2025 Mohan Singh Parmar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+```
+
+See the full [LICENSE](LICENSE) file for details.
+
+---
 
 ## Contact
 

