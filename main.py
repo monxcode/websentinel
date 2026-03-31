@@ -8,7 +8,7 @@ Authentication support:
   --cookies "session=abc123"               → Direct cookie injection
   Both modes can be combined for maximum access.
 """
-
+import pathlib
 import sys
 import os
 import argparse
